@@ -1,23 +1,302 @@
 :root {
   --orange: #cf7758;
+  --orange-soft: #e3a488;
   --text: #4e4c50;
+  --text-muted: #7a767c;
   --white: #F7F4ED;
   --white-background: #EDE6D6;
   --black: #4e4c50;
   --black-background: #1f1e1f;
+
+  /* frosted glass: translucent white, a bright rim, a soft cool shadow */
+  --glass: rgba(255, 255, 255, 0.45);
+  --glass-strong: rgba(255, 255, 255, 0.62);
+  --glass-rim: rgba(255, 255, 255, 0.65);
+  --glass-shadow: 0 10px 40px rgba(96, 88, 104, 0.10);
+  --glass-shadow-lift: 0 18px 50px rgba(96, 88, 104, 0.16);
+  --blur: 20px;
+
+  --hairline: rgba(78, 76, 80, 0.12);
+
+  /* one vertical rhythm for every section */
+  --section-y: clamp(5.5rem, 11vw, 9.5rem);
+  --gutter: clamp(1.5rem, 5vw, 4.5rem);
+  --max-width: 1120px;
+  --radius: 24px;
+
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-background: linear-gradient(#dfe9f6, #f5eada, #ffe2c4);}
+  scroll-behavior: smooth;
+}
 
 body {
+  position: relative;
   margin: 0;
   padding: 0;
+  color: var(--text);
+  /* soft base wash — the blobs supply the moving color on top of it */
+  background:
+    linear-gradient(170deg, #eef3fa 0%, #faf6ee 45%, #fdf0e2 100%)
+    fixed;
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* fine grain, so the glass reads as a material rather than flat opacity */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- ambient color field --- */
+.bg-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -8%;
+  width: 46vw;
+  height: 46vw;
+  background: #bcd4f0;
+  animation: drift-1 34s var(--ease-calm) infinite alternate;
+}
+
+.blob-2 {
+  top: 22%;
+  right: -12%;
+  width: 42vw;
+  height: 42vw;
+  background: #ffd3a8;
+  animation: drift-2 41s var(--ease-calm) infinite alternate;
+}
+
+.blob-3 {
+  bottom: 4%;
+  left: 10%;
+  width: 38vw;
+  height: 38vw;
+  background: #d9d2ef;
+  animation: drift-3 47s var(--ease-calm) infinite alternate;
+}
+
+.blob-4 {
+  top: 58%;
+  right: 18%;
+  width: 30vw;
+  height: 30vw;
+  background: #cfe6dc;
+  opacity: 0.4;
+  animation: drift-1 38s var(--ease-calm) infinite alternate-reverse;
+}
+
+@keyframes drift-1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(6vw, 8vh, 0) scale(1.12); }
+}
+
+@keyframes drift-2 {
+  from { transform: translate3d(0, 0, 0) scale(1.08); }
+  to   { transform: translate3d(-7vw, 10vh, 0) scale(0.95); }
+}
+
+@keyframes drift-3 {
+  from { transform: translate3d(0, 0, 0) scale(0.96); }
+  to   { transform: translate3d(9vw, -7vh, 0) scale(1.1); }
+}
+
+/* --- the glass material --- */
+.glass {
+  position: relative;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+  backdrop-filter: blur(var(--blur)) saturate(160%);
+  border: 1px solid var(--glass-rim);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.6s var(--ease-calm), box-shadow 0.6s var(--ease-calm),
+    background-color 0.6s var(--ease-calm);
+}
+
+/* top-edge light catch, like a real pane */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 45%);
+}
+
+.glass > * {
+  position: relative;
+}
+
+/* --- shared type: light weights, roomy leading, short measure --- */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+h1 { font-size: clamp(2.25rem, 4.4vw, 3.4rem); }
+h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 0.95rem; }
+
+p {
+  margin: 0;
+  max-width: 62ch;
+}
+
+.eyebrow {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.subtitle {
+  margin-top: 1rem;
+  color: var(--text-muted);
+}
+
+/* --- buttons --- */
+.btn {
+  display: inline-block;
+  padding: 0.9rem 1.9rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.4s var(--ease-calm), color 0.4s var(--ease-calm),
+    border-color 0.4s var(--ease-calm), transform 0.4s var(--ease-calm),
+    box-shadow 0.4s var(--ease-calm);
+}
+
+.btn-primary {
+  color: var(--white);
+  background-color: var(--orange);
+  border: 1px solid var(--orange);
+  box-shadow: 0 6px 20px rgba(207, 119, 88, 0.28);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background-color: var(--orange-soft);
+  border-color: var(--orange-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(207, 119, 88, 0.32);
+}
+
+/* the quiet button is itself a small pane of glass */
+.btn-quiet {
+  color: var(--text);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-rim);
+}
+
+.btn-quiet:hover,
+.btn-quiet:focus-visible {
+  background: var(--glass-strong);
+  transform: translateY(-2px);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.cta-row-center {
+  justify-content: center;
+}
+
+/* --- section scaffold --- */
+main > section {
+  position: relative;
+  padding: var(--section-y) var(--gutter);
+}
+
+main > section > * {
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.section-head {
+  max-width: 46ch;
+  margin-inline: auto;
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  text-align: center;
+}
+
+.section-head .subtitle,
+.section-head p {
+  margin-inline: auto;
+}
+
+/* --- scroll reveal (js/reveal.js adds .is-visible) --- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.9s var(--ease-calm), transform 0.9s var(--ease-calm);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* cards in a row wake up one after another */
+.feature-grid .reveal:nth-child(2),
+.quote-grid .reveal:nth-child(2),
+.step-list .reveal:nth-child(2),
+.plan-grid .reveal:nth-child(2) { transition-delay: 0.12s; }
+
+.feature-grid .reveal:nth-child(3),
+.quote-grid .reveal:nth-child(3),
+.step-list .reveal:nth-child(3) { transition-delay: 0.24s; }
+
+.feature-grid .reveal:nth-child(4),
+.step-list .reveal:nth-child(4) { transition-delay: 0.36s; }
 
 /*navbar*/
 .navbar {
@@ -29,26 +308,76 @@ body {
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
-  min-height: 96px;
-  padding: 1.25rem 3rem;
-  background-color: var(--white);
+  min-height: 88px;
+  padding: 1rem var(--gutter);
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  border-bottom: 1px solid var(--glass-rim);
   color: var(--black);
-  box-shadow: 0 2px 12px rgba(31, 30, 31, 0.08);
 }
 
 .navbar-brand {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--black);
   text-decoration: none;
 }
 
+/* the wrapper only exists for the mobile panel — on desktop it steps out of
+   the way so .navbar-links and .navbar-actions space themselves off the brand */
+.navbar-menu {
+  display: contents;
+}
+
+.nav-toggle {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  /* pull the tap target back so the bars line up with the gutter */
+  margin-right: -11px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 12px;
+  color: var(--black);
+  cursor: pointer;
+}
+
+.nav-toggle-bar {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 1.5px;
+  margin-left: -10px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.4s var(--ease-calm), opacity 0.25s var(--ease-calm);
+}
+
+.nav-toggle-bar:nth-child(1) { top: 15px; }
+.nav-toggle-bar:nth-child(2) { top: 21px; }
+.nav-toggle-bar:nth-child(3) { top: 27px; }
+
+/* the three bars fold into a close mark */
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 3.5rem;
+  gap: 2.5rem;
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
@@ -56,19 +385,35 @@ body {
 }
 
 .navbar-links a {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--black);
+  position: relative;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text-muted);
   text-decoration: none;
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition: color 0.4s var(--ease-calm);
+}
+
+/* underline grows out of the centre instead of snapping on */
+.navbar-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.45s var(--ease-calm);
 }
 
 .navbar-links a:hover,
 .navbar-links a:focus-visible {
-  color: var(--black);
-  border-bottom-color: var(--black);
+  color: var(--text);
+}
+
+.navbar-links a:hover::after,
+.navbar-links a:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .navbar-actions {
@@ -77,39 +422,29 @@ body {
   gap: 1.5rem;
 }
 
-.navbar-login {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--black);
-  text-decoration: none;
-}
-
-.navbar-login:hover,
-.navbar-login:focus-visible {
-  color: var(--black);
-}
-
 .navbar-cta {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 500;
   color: var(--white);
   background-color: var(--orange);
-  padding: 0.85rem 1.6rem;
+  padding: 0.7rem 1.5rem;
   border-radius: 999px;
   text-decoration: none;
-  transition: filter 0.2s ease;
+  box-shadow: 0 6px 18px rgba(207, 119, 88, 0.25);
+  transition: background-color 0.4s var(--ease-calm), transform 0.4s var(--ease-calm);
 }
 
 .navbar-cta:hover,
 .navbar-cta:focus-visible {
-  filter: brightness(1.28);
+  background-color: var(--orange-soft);
+  transform: translateY(-2px);
 }
 
-.intro-section {
+/* --- 1. hero --- */
+.intro-inner {
   display: flex;
   align-items: center;
-  gap: 3rem;
-  padding: 75px;
+  gap: clamp(2rem, 6vw, 5rem);
 }
 
 .column-1,
@@ -118,49 +453,584 @@ body {
   min-width: 0;
 }
 
+.intro-text {
+  max-width: 15ch;
+}
+
+.lede {
+  margin-top: 1.75rem;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.reassurance {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* the phone sits inside two rings that breathe at the app's own pace */
+.phone-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 2rem 0;
+}
+
+.breath-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%);
+  will-change: transform, opacity;
+}
+
+.ring-1 {
+  width: min(360px, 78%);
+  aspect-ratio: 1;
+  animation: breathe 8s var(--ease-calm) infinite;
+}
+
+.ring-2 {
+  width: min(460px, 96%);
+  aspect-ratio: 1;
+  animation: breathe 8s var(--ease-calm) infinite;
+  animation-delay: 0.6s;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(0.92); opacity: 0.45; }
+  50%      { transform: scale(1.08); opacity: 0.85; }
+}
+
 .column-2 img {
+  position: relative;
   display: block;
-  width: 60%;
-  max-width: 420px;
+  width: 100%;
+  max-width: 350px;
   height: auto;
   margin-inline: auto;
 }
 
-.features-section {
-  background-color: var(--orange);
+/* --- 2. breath --- */
+.breath-section {
+  padding-block: clamp(4rem, 8vw, 6.5rem);
+  text-align: center;
+  background-color: var(--glass);
 }
 
-h2 {
-  font-size: 2rem;
+/* Wide enough that each sentence holds one line on a desktop screen — at the
+   old 24ch measure the two of them ran to six. */
+.breath-line {
+  max-width: 72ch;
+  margin-inline: auto;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--text-muted);
 }
 
-p.subtitle {
+/* a single dot keeping the same 8s rhythm as the hero rings */
+.breath-dot {
+  width: 10px;
+  height: 10px;
+  margin: 2rem auto 0;
+  border-radius: 50%;
+  background: var(--orange-soft);
+  animation: breathe 8s var(--ease-calm) infinite;
+}
+
+/* --- 3. features --- */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.feature-card {
+  padding: 2.25rem 2rem;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  background: var(--glass-strong);
+  box-shadow: var(--glass-shadow-lift);
+}
+
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.5rem;
+  color: var(--orange);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--glass-rim);
+  /* organic squircle rather than a plain rounded box */
+  border-radius: 42% 58% 54% 46% / 48% 44% 56% 52%;
+  transition: border-radius 1.2s var(--ease-calm);
+}
+
+.feature-card:hover .feature-icon {
+  border-radius: 56% 44% 46% 54% / 54% 56% 44% 46%;
+}
+
+.feature-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.feature-card p {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* --- 4. how it works --- */
+.how-section {
+  background-color: var(--glass);
+}
+
+/* Four steps, four columns. auto-fit used to drop the last one onto a second
+   row: four 240px tracks plus the gaps came to 1128px against a 1120px cap. */
+.step-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(4rem, 8vw, 8rem);
+  /* auto, not 0 — this class outranks the margin-inline:auto that centres
+     every other section child, and a bare `margin: 0` pins it to the left */
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* two up, then stacked — 4 across stops being readable well before the nav collapses */
+@media (max-width: 1000px) {
+  .step-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+}
+
+@media (max-width: 620px) {
+  .step-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* centred at every width, matching the section head above it */
+.step {
   text-align: center;
 }
 
+.step-number {
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 1.25rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-rim);
+}
 
+.step p {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+}
 
+/* --- 5. testimonials --- */
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
 
-/*mobile*/
-@media (max-width: 900px) {
+.quote-card {
+  margin: 0;
+  padding: 2.25rem 2rem;
+}
+
+.quote-card:hover {
+  transform: translateY(-6px);
+  background: var(--glass-strong);
+  box-shadow: var(--glass-shadow-lift);
+}
+
+.quote-card blockquote {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.quote-card figcaption {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --- 6. pricing --- */
+.pricing-section {
+  background-color: var(--glass);
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  max-width: 840px;
+  margin-inline: auto;
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 2rem;
+}
+
+.plan-card:hover {
+  transform: translateY(-6px);
+  background: var(--glass-strong);
+  box-shadow: var(--glass-shadow-lift);
+}
+
+.plan-card-featured {
+  background: var(--glass-strong);
+  border-color: rgba(227, 164, 136, 0.6);
+}
+
+.plan-tag {
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.plan-price {
+  margin: 1rem 0 2rem;
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.plan-price span {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.plan-features {
+  flex: 1;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+}
+
+.plan-features li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.plan-card .btn {
+  text-align: center;
+}
+
+/* --- 7. faq: one glass panel, hairlines between rows --- */
+.faq-list {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 0.5rem 2rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.4s var(--ease-calm);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary:hover {
+  color: var(--orange);
+}
+
+.faq-item summary::after {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-right: 1.5px solid var(--text-muted);
+  border-bottom: 1.5px solid var(--text-muted);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 0.45s var(--ease-calm);
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+.faq-item p {
+  padding-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+
+/* --- 8. final cta --- */
+.download-panel {
+  padding: clamp(3rem, 7vw, 5rem) 2rem;
+  text-align: center;
+}
+
+.download-panel .subtitle {
+  margin-inline: auto;
+}
+
+/* --- 9. footer --- */
+.site-footer {
+  position: relative;
+  padding: clamp(4rem, 8vw, 6rem) var(--gutter) 3rem;
+  background: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-top: 1px solid var(--glass-rim);
+}
+
+.footer-inner,
+.footer-note,
+.footer-copyright {
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.footer-brand p {
+  margin-top: 1rem;
+  max-width: 32ch;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.footer-col h4 {
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.footer-col ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-col a {
+  display: inline-block;
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.4s var(--ease-calm);
+}
+
+.footer-col a:hover,
+.footer-col a:focus-visible {
+  color: var(--text);
+}
+
+.footer-note {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+  max-width: 70ch;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-copyright {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* The nav collapses on its own breakpoint, ahead of the rest of the page: the
+   six links, the brand and the CTA need ~1060px laid out in a row, so they are
+   already crowding each other by the time the layout itself goes single column. */
+@media (max-width: 1100px) {
   .navbar {
-    justify-content: center;
-    padding: 1.25rem 1.5rem;
-    gap: 1.25rem;
+    gap: 1rem;
+    min-height: 72px;
+  }
+
+  /* the links stack in the bar itself with no JS, so let it grow */
+  .js .navbar {
+    flex-wrap: nowrap;
+  }
+
+  /* the toggle can't do anything without JS — don't offer it */
+  .js .nav-toggle {
+    display: block;
+  }
+
+  .navbar-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  /* with JS, it leaves the bar and becomes a panel hanging off the bottom */
+  .js .navbar-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
+    padding: 0.5rem var(--gutter) 1.5rem;
+    /* solid, not frosted — the links stay readable over whatever scrolls under */
+    background: var(--white);
+    border-bottom: 1px solid var(--glass-rim);
+    box-shadow: var(--glass-shadow);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.35s var(--ease-calm), transform 0.35s var(--ease-calm),
+      visibility 0.35s var(--ease-calm);
+  }
+
+  .js .navbar-menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
   }
 
   .navbar-links {
-    gap: 2.15rem;
-    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
   }
 
-  .intro-section {
-    flex-direction: column;
-    padding: 3rem 1.5rem;
-    gap: 2rem;
+  .navbar-links a {
+    display: block;
+    padding: 0.9rem 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .navbar-links li:last-child a {
+    border-bottom: 0;
+  }
+
+  /* the centre-out underline reads as a stray rule on full-width rows */
+  .navbar-links a::after {
+    display: none;
+  }
+
+  .navbar-actions {
+    margin-top: 1.25rem;
+  }
+
+  .navbar-cta {
+    flex: 1;
+    padding: 0.9rem 1.5rem;
+    text-align: center;
   }
 }
 
+/*mobile*/
+@media (max-width: 900px) {
+  /* stacks in DOM order: the headline and CTA lead, the phone follows */
+  .intro-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .intro-text,
+  .intro-section p {
+    max-width: 34ch;
+    margin-inline: auto;
+  }
+
+  .cta-row {
+    justify-content: center;
+  }
+
+  .blob {
+    filter: blur(70px);
+  }
+
+  .faq-list {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* nothing here should ever move for someone who asked it not to */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .blob,
+  .breath-ring,
+  .breath-dot {
+    animation: none !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
 
 
 /*fonts*/
