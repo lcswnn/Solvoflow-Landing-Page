@@ -273,31 +273,6 @@ main > section > * {
   margin-inline: auto;
 }
 
-/* --- scroll reveal (js/reveal.js adds .is-visible) --- */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.9s var(--ease-calm), transform 0.9s var(--ease-calm);
-}
-
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* cards in a row wake up one after another */
-.feature-grid .reveal:nth-child(2),
-.quote-grid .reveal:nth-child(2),
-.step-list .reveal:nth-child(2),
-.plan-grid .reveal:nth-child(2) { transition-delay: 0.12s; }
-
-.feature-grid .reveal:nth-child(3),
-.quote-grid .reveal:nth-child(3),
-.step-list .reveal:nth-child(3) { transition-delay: 0.24s; }
-
-.feature-grid .reveal:nth-child(4),
-.step-list .reveal:nth-child(4) { transition-delay: 0.36s; }
-
 /*navbar*/
 .navbar {
   position: sticky;
@@ -1015,12 +990,6 @@ main > section > * {
   .breath-ring,
   .breath-dot {
     animation: none !important;
-  }
-
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 
   *,

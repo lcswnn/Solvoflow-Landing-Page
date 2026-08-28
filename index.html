@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/style.css">
-  <!-- only hide the reveal elements if JS is actually there to bring them back -->
+  <!-- only collapse the nav behind the toggle if JS is there to open it again -->
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -52,7 +52,7 @@
     <!-- 1. HERO -->
     <section class="intro-section" id="home">
       <div class="intro-inner">
-        <div class="column-1 reveal">
+        <div class="column-1">
           <p class="eyebrow">A quieter way through it</p>
           <h1 class="intro-text">Breathe, reset, and get back to your day with Solvoflow.</h1>
           <p class="lede">
@@ -65,7 +65,7 @@
           </div>
           <p class="reassurance">Free to start &middot; No account needed &middot; Nothing shared</p>
         </div>
-        <div class="column-2 reveal">
+        <div class="column-2">
           <!-- slow 8s pulse: 4s in, 4s out — the app's actual breathing pace -->
           <div class="phone-stage">
             <span class="breath-ring ring-1" aria-hidden="true"></span>
@@ -78,7 +78,7 @@
 
     <!-- 2. BREATH — single calm statement, lots of air -->
     <section class="breath-section">
-      <div class="reveal">
+      <div>
         <p class="breath-line">
           Most apps try to keep you locked within and are barred behind a paywall.<br>
           We believe in a simpler, more accessible approach to mental well-being.
@@ -89,14 +89,14 @@
 
     <!-- 3. FEATURES -->
     <section class="features-section" id="features">
-      <header class="section-head reveal">
+      <header class="section-head">
         <p class="eyebrow">Features</p>
         <h2>Small tools, made for the hard moments.</h2>
         <p class="subtitle">Everything here is meant to be used in under five minutes.</p>
       </header>
 
       <div class="feature-grid">
-        <article class="feature-card glass reveal">
+        <article class="feature-card glass">
           <div class="feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 12c3-5 6 5 9 0s6-5 9 0"/>
@@ -106,7 +106,7 @@
           <p>Short prompts that walk a spiraling thought back down to something you can hold.</p>
         </article>
 
-        <article class="feature-card glass reveal">
+        <article class="feature-card glass">
           <div class="feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"/>
@@ -117,7 +117,7 @@
           <p>Paced breathing that adjusts to how wound up you actually are, not a fixed timer.</p>
         </article>
 
-        <article class="feature-card glass reveal">
+        <article class="feature-card glass">
           <div class="feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 4h9l3 3v13H6z"/>
@@ -128,7 +128,7 @@
           <p>Quiet notes on what set things off and what helped, kept only on your device.</p>
         </article>
 
-        <article class="feature-card glass reveal">
+        <article class="feature-card glass">
           <div class="feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/>
@@ -144,28 +144,28 @@
 
     <!-- 4. HOW IT WORKS -->
     <section class="how-section" id="how-it-works">
-      <header class="section-head reveal">
+      <header class="section-head">
         <p class="eyebrow">How it works</p>
         <h2>Relieving anxiety in 4 easy steps</h2>
       </header>
 
       <ol class="step-list">
-        <li class="step reveal">
+        <li class="step">
           <span class="step-number">01</span>
           <h3>Say what's going on</h3>
           <p>A sentence is enough. Solvoflow reads the shape of it, not the grammar.</p>
         </li>
-        <li class="step reveal">
+        <li class="step">
           <span class="step-number">02</span>
           <h3>Work through it together</h3>
           <p>You get a handful of questions that pull the worry apart into pieces you can answer.</p>
         </li>
-        <li class="step reveal">
+        <li class="step">
           <span class="step-number">03</span>
           <h3>One more thing</h3>
           <p>One next step, sized to what you have left in you today.</p>
         </li>
-        <li class="step reveal">
+        <li class="step">
           <span class="step-number">04</span>
           <h3>Leave lighter</h3>
           <p>One next step, sized to what you have left in you today.</p>
@@ -175,21 +175,21 @@
 
     <!-- 5. TESTIMONIALS -->
     <section class="testimonials-section" id="testimonials">
-      <header class="section-head reveal">
+      <header class="section-head">
         <p class="eyebrow">Testimonials</p>
         <h2>Quiet feedback from quiet users.</h2>
       </header>
 
       <div class="quote-grid">
-        <figure class="quote-card glass reveal">
+        <figure class="quote-card glass">
           <blockquote>Placeholder quote. Two sentences at most, in a normal person's voice.</blockquote>
           <figcaption>First name &middot; role or context</figcaption>
         </figure>
-        <figure class="quote-card glass reveal">
+        <figure class="quote-card glass">
           <blockquote>Placeholder quote. Two sentences at most, in a normal person's voice.</blockquote>
           <figcaption>First name &middot; role or context</figcaption>
         </figure>
-        <figure class="quote-card glass reveal">
+        <figure class="quote-card glass">
           <blockquote>Placeholder quote. Two sentences at most, in a normal person's voice.</blockquote>
           <figcaption>First name &middot; role or context</figcaption>
         </figure>
@@ -198,13 +198,13 @@
 
     <!-- 6. PRICING -->
     <section class="pricing-section" id="pricing">
-      <header class="section-head reveal">
+      <header class="section-head">
         <p class="eyebrow">Pricing</p>
         <h2>Start free. Upgrade only if it earns it.</h2>
       </header>
 
       <div class="plan-grid">
-        <article class="plan-card glass reveal">
+        <article class="plan-card glass">
           <h3>Free</h3>
           <p class="plan-price">$0<span>/forever</span></p>
           <ul class="plan-features">
@@ -215,7 +215,7 @@
           <a class="btn btn-quiet" href="#download">Get the App</a>
         </article>
 
-        <article class="plan-card plan-card-featured glass reveal">
+        <article class="plan-card plan-card-featured glass">
           <p class="plan-tag">Most chosen</p>
           <h3>Plus</h3>
           <p class="plan-price">$2.99<span> one time fee</span></p>
@@ -232,12 +232,12 @@
 
     <!-- 7. FAQ -->
     <section class="faq-section" id="faq">
-      <header class="section-head reveal">
+      <header class="section-head">
         <p class="eyebrow">FAQ</p>
         <h2>Reasonable questions.</h2>
       </header>
 
-      <div class="faq-list glass reveal">
+      <div class="faq-list glass">
         <details class="faq-item">
           <summary>Is Solvoflow therapy?</summary>
           <p>Placeholder answer. Be direct and honest here — this is the trust question.</p>
@@ -263,7 +263,7 @@
 
     <!-- 8. FINAL CTA -->
     <section class="download-section" id="download">
-      <div class="download-panel glass reveal">
+      <div class="download-panel glass">
         <h2>When it gets loud, it's here.</h2>
         <p class="subtitle">Free to start. Takes about a minute to set up.</p>
         <div class="cta-row cta-row-center">
@@ -316,6 +316,5 @@
   </footer>
 
   <script src="js/nav.js"></script>
-  <script src="js/reveal.js"></script>
 </body>
 </html>
