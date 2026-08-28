@@ -12,8 +12,7 @@ html {
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  background-color: var(--white-background);
-}
+background: linear-gradient(#dfe9f6, #f5eada, #ffe2c4);}
 
 body {
   margin: 0;
@@ -111,7 +110,6 @@ body {
   align-items: center;
   gap: 3rem;
   padding: 75px;
-  background-color: var(--white-background);
 }
 
 .column-1,
