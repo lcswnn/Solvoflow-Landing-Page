@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solvoflow — The linear anxiety and stress relief app</title>
-  <meta name="description" content="Solvoflow is a quiet anxiety-relief app: guided unwinding, paced breathing, and notes that stay on your device. Free to start, no account needed.">
+  <meta name="description" content="Solvoflow is a quiet anxiety-relief app: guided unwinding, paced breathing, and calming games. Free to start, no account needed.">
   <meta name="theme-color" content="#F4EFE6">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Solvoflow — Calm anxiety in five minutes">
-  <meta property="og:description" content="Guided unwinding, paced breathing, and notes that stay on your device. Free to start, no account needed.">
+  <meta property="og:description" content="Guided unwinding, paced breathing, and calming games. Free to start, no account needed.">
   <meta property="og:image" content="assets/app-render.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -359,9 +359,15 @@
             <a href="mailto:support@solvoflow.app">support@solvoflow.app</a>
           </p>
 
-          <!-- restore at launch, once there is something to download
+          <!-- Restore at launch, once there is something to download: swap the href
+               for the real App Store product URL and delete these comment markers.
+               The badge is Apple's own artwork, used unmodified as their marketing
+               guidelines require — do not recolour, retype or rebuild it.
           <div class="cta-row cta-row-center">
-            <a class="btn btn-primary" href="#">Download for iOS</a>
+            <a class="app-store-badge" href="APP_STORE_URL_GOES_HERE">
+              <img src="assets/web/app-store-badge.svg"
+                   alt="Download on the App Store" width="120" height="40">
+            </a>
           </div>
           -->
         </div>
@@ -398,22 +404,30 @@
         <div class="footer-col">
           <h4>Legal</h4>
           <ul>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
+            <li><a href="terms.html">Terms</a></li>
           </ul>
         </div>
       </nav>
     </div>
 
     <p class="footer-note">
-      Solvoflow is not a substitute for professional care. If you're in crisis, please contact
-      local emergency services or a crisis line.
+      Solvoflow is not a substitute for professional care. If you&rsquo;re in crisis, contact your
+      local emergency services, call or text <a href="tel:988">988</a> for the US Suicide &amp;
+      Crisis Lifeline, or find a line where you are at
+      <a href="https://findahelpline.com" rel="noopener">findahelpline.com</a>.
+    </p>
+    <!-- Required wherever the App Store badge or any Apple mark appears; it goes
+         up now so it cannot be forgotten when the download button is restored.
+         Wording is Apple's own and should be copied, not paraphrased. -->
+    <p class="footer-legal">
+      Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other
+      countries. App Store is a service mark of Apple Inc.
     </p>
     <p class="footer-copyright">&copy; 2026 Solvoflow</p>
   </footer>
 
   <script src="js/nav.js"></script>
   <script src="js/nav-hide.js"></script>
-  <script src="js/anchor-scroll.js"></script>
 </body>
 </html>
