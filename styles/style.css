@@ -733,6 +733,7 @@ main > section > * {
 /* wide measure so each sentence holds one line on a desktop screen */
 .breath-line {
   max-width: 72ch;
+  margin-top: var(--space-2);
   margin-inline: auto;
   font-family: var(--font-display);
   font-size: var(--fs-300);
