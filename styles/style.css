@@ -472,7 +472,7 @@ main > section > * {
    visible bottom edge. Change one knob to shift the two relative to each
    other; change both by the same amount to move the whole lockup. */
 .navbar-brand {
-  --mark-drop: 0.06em;
+  --mark-drop: 0.12em;
   --word-drop: 0.219em;
 
   display: inline-flex;
