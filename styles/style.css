@@ -98,67 +98,6 @@
   --t-slow: 0.4s;
 }
 
-/* --- dark theme: follows the OS, overridable via [data-theme] ---------- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper:        #15120F;
-    --surface:      #211C18;
-    --ink:          #F6F0E7;            /* 16.47:1 */
-    --ink-body:     #E2D9CE;            /* 13.37:1 */
-    --ink-muted:    #AFA398;            /*  7.57:1 */
-    --accent:       #F0A077;            /*  8.89:1 */
-    --accent-hover: #F7BB9B;
-    --accent-quiet: #7E3218;
-    --on-accent:    #15120F;            /*  8.89:1 */
-
-    --glass:        rgba(255, 248, 240, 0.07);
-    --glass-strong: rgba(255, 248, 240, 0.12);
-    --glass-rim:    rgba(255, 240, 228, 0.16);
-    --glass-shadow:      0 8px 40px rgba(0, 0, 0, 0.45);
-    --glass-shadow-lift: 0 16px 48px rgba(0, 0, 0, 0.55);
-
-    --hairline: rgba(246, 240, 231, 0.16);
-    --focus:      #F6F0E7;
-    --focus-halo: #15120F;
-
-    --blob-1: #1D3350;
-    --blob-2: #5A3418;
-    --blob-3: #2E2747;
-    --blob-4: #1B382E;
-    --blob-opacity: 0.5;
-    --page-wash: linear-gradient(170deg, #101418 0%, #15120F 45%, #1A1310 100%);
-  }
-}
-
-:root[data-theme="dark"] {
-  --paper:        #15120F;
-  --surface:      #211C18;
-  --ink:          #F6F0E7;
-  --ink-body:     #E2D9CE;
-  --ink-muted:    #AFA398;
-  --accent:       #F0A077;
-  --accent-hover: #F7BB9B;
-  --accent-quiet: #7E3218;
-  --on-accent:    #15120F;
-
-  --glass:        rgba(255, 248, 240, 0.07);
-  --glass-strong: rgba(255, 248, 240, 0.12);
-  --glass-rim:    rgba(255, 240, 228, 0.16);
-  --glass-shadow:      0 8px 40px rgba(0, 0, 0, 0.45);
-  --glass-shadow-lift: 0 16px 48px rgba(0, 0, 0, 0.55);
-
-  --hairline: rgba(246, 240, 231, 0.16);
-  --focus:      #F6F0E7;
-  --focus-halo: #15120F;
-
-  --blob-1: #1D3350;
-  --blob-2: #5A3418;
-  --blob-3: #2E2747;
-  --blob-4: #1B382E;
-  --blob-opacity: 0.5;
-  --page-wash: linear-gradient(170deg, #101418 0%, #15120F 45%, #1A1310 100%);
-}
-
 /* ------------------------------------------------------------ 2. RESET/BASE */
 *,
 *::before,
@@ -266,16 +205,6 @@ svg {
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 45%);
 }
 
-:root[data-theme="dark"] .glass::before {
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 45%);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .glass::before {
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 45%);
-  }
-}
-
 .glass > * {
   position: relative;
 }
@@ -350,7 +279,7 @@ a {
 
 /* ------------------------------------------------------- 4. FOCUS + A11Y */
 /* One focus treatment everywhere: a solid ring plus a halo, so it survives
-   both the pale paper and the dark glass. */
+   the pale paper and the frosted glass alike. */
 :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
@@ -367,7 +296,7 @@ a {
   position: absolute;
   top: var(--space-1);
   left: var(--space-1);
-  z-index: 200;
+  z-index: 1000;
   padding: var(--space-2) var(--space-3);
   min-height: var(--tap);
   display: inline-flex;
@@ -484,10 +413,33 @@ main > section > * {
 }
 
 /* --- navbar --- */
-.navbar {
+/* The bar sticks to the top and steps out of the way on the way down —
+   js/nav-hide.js toggles .is-hidden. Sticky rather than fixed, so the page
+   keeps its natural flow and nothing needs a compensating top padding.
+   The stickiness lives here, not on .navbar: a sticky child can only travel
+   inside its parent box, and <header> is exactly as tall as the bar. */
+.site-header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  /* above every section, card and the grain overlay; only .skip-link outranks
+     it, so a keyboard user can still reach it while the bar is on screen */
+  z-index: 900;
+}
+
+/* The slide lives on .navbar, never on <header>. An ancestor with a transform
+   becomes the backdrop root for anything inside it, which leaves the bar's own
+   backdrop-filter with nothing to sample — the blur dies and the page shows
+   through the 74% white sharply. An element's own transform is safe. */
+.site-header.is-hidden .navbar {
+  transform: translateY(-100%);
+}
+
+/* the bar is gone; do not let its empty box swallow clicks on the page */
+.site-header.is-hidden {
+  pointer-events: none;
+}
+
+.navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -499,9 +451,27 @@ main > section > * {
   -webkit-backdrop-filter: blur(22px) saturate(170%);
   backdrop-filter: blur(22px) saturate(170%);
   border-bottom: 1px solid var(--glass-rim);
+  transition: transform var(--t-slow) var(--ease-calm);
 }
 
+/* without the blur, 74% white is not enough to stop text reading through */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .navbar {
+    background: rgba(255, 255, 255, 0.97);
+  }
+}
+
+/* Two knobs tune the lockup, both in em so they scale with the brand size.
+   The brand renders at 25px, so 0.04em is about 1px:
+     --mark-drop  moves the icon down   (negative moves it up)
+     --word-drop  moves the wordmark down
+   0.219em is the value that puts the text baseline exactly on the mark s
+   visible bottom edge. Change one knob to shift the two relative to each
+   other; change both by the same amount to move the whole lockup. */
 .navbar-brand {
+  --mark-drop: 0.06em;
+  --word-drop: 0.219em;
+
   display: inline-flex;
   align-items: center;
   min-height: var(--tap);
@@ -511,6 +481,29 @@ main > section > * {
   letter-spacing: -0.02em;
   color: var(--ink);
   text-decoration: none;
+}
+
+/* The mark sits left of the wordmark. The PNG carries ~20.9% transparent
+   padding on every side (measured ink box: x122-404, y107-404 of 512), so the
+   two offsets below are tuned against the ink the eye sees, not the image box. */
+.brand-mark {
+  position: relative;
+  top: var(--mark-drop);
+  flex: none;
+  width: 1.75em;
+  height: 1.75em;
+  margin-right: 0.2em;   /* ~0.56em to the ink, once the padding is discounted */
+}
+
+/* Sit the wordmark on the mark s visible bottom edge. Centring the two boxes
+   leaves the baseline 0.219em high, because the ink stops short of the image
+   box; a synthesised baseline cannot fix this, as the browser takes an image s
+   baseline from its border box and ignores a negative margin. position:relative
+   keeps it a paint-time nudge, so the tap target and the bar s vertical
+   centring are both untouched. */
+.brand-word {
+  position: relative;
+  top: var(--word-drop);
 }
 
 /* the wrapper only exists for the mobile panel — on desktop it steps out of
@@ -588,42 +581,6 @@ main > section > * {
 .navbar-cta:hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
-}
-
-/* theme toggle */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap);
-  height: var(--tap);
-  padding: 0;
-  color: var(--ink);
-  background: transparent;
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: border-color var(--t-fast) var(--ease-calm),
-              color var(--t-fast) var(--ease-calm);
-}
-
-.theme-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.theme-toggle svg {
-  width: 20px;
-  height: 20px;
-}
-
-.theme-toggle .icon-sun { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
 }
 
 /* hamburger — only meaningful below the nav breakpoint */
@@ -1017,6 +974,11 @@ main > section > * {
 }
 
 /* --- 7. faq --- */
+.faq-section {
+  padding: var(--space-8) var(--gutter);
+  background-color: var(--glass);
+}
+
 .faq-list {
   padding: var(--space-2) var(--space-4);
 }
@@ -1465,7 +1427,6 @@ main > section > * {
 @media (forced-colors: active) {
   .btn,
   .navbar-cta,
-  .theme-toggle,
   .nav-toggle {
     border: 1px solid ButtonBorder;
   }
@@ -1479,7 +1440,6 @@ main > section > * {
 @media print {
   .navbar,
   .bg-field,
-  .theme-toggle,
   .skip-link {
     display: none !important;
   }
