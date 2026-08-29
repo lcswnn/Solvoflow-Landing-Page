@@ -1,5 +1,5 @@
 /* Mobile navbar. The menu is a plain list until the viewport drops below
-   1100px — from there it collapses behind the toggle and slides down as a
+   1180px — from there it collapses behind the toggle and slides down as a
    panel. Without JS the CSS leaves it open and stacked, so nothing is lost.
    The width below must match the navbar breakpoint in style.css. */
 (function () {
@@ -7,7 +7,7 @@
   var menu = document.getElementById('nav-menu');
   if (!toggle || !menu) return;
 
-  var wide = window.matchMedia('(min-width: 1101px)');
+  var wide = window.matchMedia('(min-width: 1181px)');
 
   function setOpen(open) {
     menu.classList.toggle('is-open', open);

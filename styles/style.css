@@ -1,32 +1,165 @@
-:root {
-  --orange: #cf7758;
-  --orange-soft: #e3a488;
-  --text: #4e4c50;
-  --text-muted: #7a767c;
-  --white: #F7F4ED;
-  --white-background: #EDE6D6;
-  --black: #4e4c50;
-  --black-background: #1f1e1f;
+/* ============================================================================
+   SOLVOFLOW — design system
+   ----------------------------------------------------------------------------
+   1. Tokens        4. Focus + a11y     7. Sections
+   2. Reset/base    5. Layout           8. Footer
+   3. Typography    6. Components       9. Breakpoints + motion
+   ========================================================================= */
 
-  /* frosted glass: translucent white, a bright rim, a soft cool shadow */
-  --glass: rgba(255, 255, 255, 0.45);
-  --glass-strong: rgba(255, 255, 255, 0.62);
-  --glass-rim: rgba(255, 255, 255, 0.65);
-  --glass-shadow: 0 10px 40px rgba(96, 88, 104, 0.10);
-  --glass-shadow-lift: 0 18px 50px rgba(96, 88, 104, 0.16);
+/* ---------------------------------------------------------------- 1. TOKENS */
+:root {
+  /* --- colour ---------------------------------------------------------
+     Every text/background pair below is measured against WCAG AA.
+     Ratios in comments are vs. --paper unless noted. */
+  --paper:        #F4EFE6;              /* page base                        */
+  --surface:      #FBF8F2;              /* raised cards, opaque fallback    */
+  --ink:          #1F1B18;              /* headings            14.93:1      */
+  --ink-body:     #38322E;              /* body copy           11.02:1      */
+  --ink-muted:    #5A524C;              /* secondary copy       6.68:1      */
+  --accent:       #9A3F1F;              /* accent text + CTA bg  5.91:1     */
+  --accent-hover: #7E3218;              /* CTA hover             7.78:1     */
+  --accent-quiet: #E3A488;              /* decorative only — never text     */
+  --on-accent:    #F4EFE6;              /* label on accent       5.91:1     */
+
+  /* glass material */
+  --glass:        rgba(255, 255, 255, 0.55);
+  --glass-strong: rgba(255, 255, 255, 0.74);
+  --glass-rim:    rgba(255, 255, 255, 0.70);
+  --glass-shadow:      0 8px 40px rgba(60, 45, 35, 0.09);
+  --glass-shadow-lift: 0 16px 48px rgba(60, 45, 35, 0.15);
   --blur: 20px;
 
-  --hairline: rgba(78, 76, 80, 0.12);
+  --hairline: rgba(31, 27, 24, 0.14);
+  --focus:    #1F1B18;                  /* focus ring — 14.93:1 on paper    */
+  --focus-halo: #FBF8F2;
 
-  /* one vertical rhythm for every section */
-  --section-y: clamp(5.5rem, 11vw, 9.5rem);
-  --gutter: clamp(1.5rem, 5vw, 4.5rem);
+  /* ambient field */
+  --blob-1: #BCD4F0;
+  --blob-2: #FFD3A8;
+  --blob-3: #D9D2EF;
+  --blob-4: #CFE6DC;
+  --blob-opacity: 0.55;
+  --page-wash: linear-gradient(170deg, #EEF3FA 0%, #FAF6EE 45%, #FDF0E2 100%);
+
+  /* --- type scale — modular 1.25, base 16px ---------------------------
+     100 12.8px · 200 16px · 300 20px · 400 25px
+     500 31.25px · 600 39.06px · 700 48.83px · 800 61.04px             */
+  --fs-100: 0.8rem;
+  --fs-200: 1rem;
+  --fs-300: 1.25rem;
+  --fs-400: 1.5625rem;
+  --fs-500: 1.9531rem;
+  --fs-600: 2.4414rem;
+  --fs-700: 3.0518rem;
+  --fs-800: 3.8147rem;
+
+  --lh-heading: 1.2;
+  --lh-body: 1.5;
+  --lh-tight: 1.3;
+
+  /* One family across the whole page — Elms Sans is the app's own UI font, so
+     the site and the product read as one thing. It sets wider and more loosely
+     tracked than a typical grotesque: the nav breakpoint and the breath
+     statement's measure are both sized around that.
+
+     Display and body stay separate tokens even though they resolve the same,
+     so a display face can be reintroduced in one place if that changes. With
+     no serif to lean on, hierarchy comes from size, weight and tracking —
+     see the display-role rules below. */
+  --font-display: "Elms Sans", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "Elms Sans", "Avenir Next", "Segoe UI", sans-serif;
+
+  /* --- 8-point spacing grid ------------------------------------------ */
+  --space-1:  0.5rem;   /*   8px */
+  --space-2:  1rem;     /*  16px */
+  --space-3:  1.5rem;   /*  24px */
+  --space-4:  2rem;     /*  32px */
+  --space-5:  2.5rem;   /*  40px */
+  --space-6:  3rem;     /*  48px */
+  --space-7:  3.5rem;   /*  56px */
+  --space-8:  4rem;     /*  64px */
+  --space-10: 5rem;     /*  80px */
+  --space-12: 6rem;     /*  96px */
+  --space-16: 8rem;     /* 128px */
+
+  --section-y: var(--space-8);          /* stepped up at breakpoints        */
+  --gutter:    var(--space-3);
   --max-width: 1120px;
-  --radius: 24px;
+  --measure:   64ch;
 
+  --radius-sm: 8px;
+  --radius:    24px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+
+  --tap: 44px;                          /* minimum touch target             */
   --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-fast: 0.2s;
+  --t-slow: 0.4s;
 }
 
+/* --- dark theme: follows the OS, overridable via [data-theme] ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #15120F;
+    --surface:      #211C18;
+    --ink:          #F6F0E7;            /* 16.47:1 */
+    --ink-body:     #E2D9CE;            /* 13.37:1 */
+    --ink-muted:    #AFA398;            /*  7.57:1 */
+    --accent:       #F0A077;            /*  8.89:1 */
+    --accent-hover: #F7BB9B;
+    --accent-quiet: #7E3218;
+    --on-accent:    #15120F;            /*  8.89:1 */
+
+    --glass:        rgba(255, 248, 240, 0.07);
+    --glass-strong: rgba(255, 248, 240, 0.12);
+    --glass-rim:    rgba(255, 240, 228, 0.16);
+    --glass-shadow:      0 8px 40px rgba(0, 0, 0, 0.45);
+    --glass-shadow-lift: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+    --hairline: rgba(246, 240, 231, 0.16);
+    --focus:      #F6F0E7;
+    --focus-halo: #15120F;
+
+    --blob-1: #1D3350;
+    --blob-2: #5A3418;
+    --blob-3: #2E2747;
+    --blob-4: #1B382E;
+    --blob-opacity: 0.5;
+    --page-wash: linear-gradient(170deg, #101418 0%, #15120F 45%, #1A1310 100%);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:        #15120F;
+  --surface:      #211C18;
+  --ink:          #F6F0E7;
+  --ink-body:     #E2D9CE;
+  --ink-muted:    #AFA398;
+  --accent:       #F0A077;
+  --accent-hover: #F7BB9B;
+  --accent-quiet: #7E3218;
+  --on-accent:    #15120F;
+
+  --glass:        rgba(255, 248, 240, 0.07);
+  --glass-strong: rgba(255, 248, 240, 0.12);
+  --glass-rim:    rgba(255, 240, 228, 0.16);
+  --glass-shadow:      0 8px 40px rgba(0, 0, 0, 0.45);
+  --glass-shadow-lift: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  --hairline: rgba(246, 240, 231, 0.16);
+  --focus:      #F6F0E7;
+  --focus-halo: #15120F;
+
+  --blob-1: #1D3350;
+  --blob-2: #5A3418;
+  --blob-3: #2E2747;
+  --blob-4: #1B382E;
+  --blob-opacity: 0.5;
+  --page-wash: linear-gradient(170deg, #101418 0%, #15120F 45%, #1A1310 100%);
+}
+
+/* ------------------------------------------------------------ 2. RESET/BASE */
 *,
 *::before,
 *::after {
@@ -36,21 +169,22 @@
 html {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
   scroll-behavior: smooth;
+  /* sticky bar is 72–88px; keep anchored headings clear of it */
+  scroll-padding-top: var(--space-12);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   position: relative;
   margin: 0;
   padding: 0;
-  color: var(--text);
-  /* soft base wash — the blobs supply the moving color on top of it */
-  background:
-    linear-gradient(170deg, #eef3fa 0%, #faf6ee 45%, #fdf0e2 100%)
-    fixed;
-  font-size: 1rem;
-  line-height: 1.75;
+  color: var(--ink-body);
+  background: var(--page-wash) fixed;
+  background-color: var(--paper);
+  font-size: var(--fs-200);
+  line-height: var(--lh-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -66,7 +200,12 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* --- ambient color field --- */
+img,
+svg {
+  max-width: 100%;
+}
+
+/* --- ambient colour field --- */
 .bg-field {
   position: fixed;
   inset: 0;
@@ -80,46 +219,14 @@ body::after {
   display: block;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.55;
+  opacity: var(--blob-opacity);
   will-change: transform;
 }
 
-.blob-1 {
-  top: -10%;
-  left: -8%;
-  width: 46vw;
-  height: 46vw;
-  background: #bcd4f0;
-  animation: drift-1 34s var(--ease-calm) infinite alternate;
-}
-
-.blob-2 {
-  top: 22%;
-  right: -12%;
-  width: 42vw;
-  height: 42vw;
-  background: #ffd3a8;
-  animation: drift-2 41s var(--ease-calm) infinite alternate;
-}
-
-.blob-3 {
-  bottom: 4%;
-  left: 10%;
-  width: 38vw;
-  height: 38vw;
-  background: #d9d2ef;
-  animation: drift-3 47s var(--ease-calm) infinite alternate;
-}
-
-.blob-4 {
-  top: 58%;
-  right: 18%;
-  width: 30vw;
-  height: 30vw;
-  background: #cfe6dc;
-  opacity: 0.4;
-  animation: drift-1 38s var(--ease-calm) infinite alternate-reverse;
-}
+.blob-1 { top: -10%; left: -8%;  width: 46vw; height: 46vw; background: var(--blob-1); animation: drift-1 34s var(--ease-calm) infinite alternate; }
+.blob-2 { top: 22%;  right: -12%; width: 42vw; height: 42vw; background: var(--blob-2); animation: drift-2 41s var(--ease-calm) infinite alternate; }
+.blob-3 { bottom: 4%; left: 10%;  width: 38vw; height: 38vw; background: var(--blob-3); animation: drift-3 47s var(--ease-calm) infinite alternate; }
+.blob-4 { top: 58%;  right: 18%;  width: 30vw; height: 30vw; background: var(--blob-4); opacity: 0.4; animation: drift-1 38s var(--ease-calm) infinite alternate-reverse; }
 
 @keyframes drift-1 {
   from { transform: translate3d(0, 0, 0) scale(1); }
@@ -145,11 +252,11 @@ body::after {
   border: 1px solid var(--glass-rim);
   border-radius: var(--radius);
   box-shadow: var(--glass-shadow);
-  transition: transform 0.6s var(--ease-calm), box-shadow 0.6s var(--ease-calm),
-    background-color 0.6s var(--ease-calm);
+  transition: transform var(--t-slow) var(--ease-calm),
+              box-shadow var(--t-slow) var(--ease-calm),
+              background-color var(--t-slow) var(--ease-calm);
 }
 
-/* top-edge light catch, like a real pane */
 .glass::before {
   content: "";
   position: absolute;
@@ -159,98 +266,126 @@ body::after {
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 45%);
 }
 
+:root[data-theme="dark"] .glass::before {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 45%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .glass::before {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 45%);
+  }
+}
+
 .glass > * {
   position: relative;
 }
 
-/* --- shared type: light weights, roomy leading, short measure --- */
+/* ---------------------------------------------------------- 3. TYPOGRAPHY */
+/* Headings share the body family now, so the whole burden of hierarchy falls
+   on weight and tracking: 700 against body's 400, and negative letter-spacing
+   that grows with size to pull in Elms Sans's naturally wide default fit. */
 h1, h2, h3, h4 {
   margin: 0;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: var(--lh-heading);
+  color: var(--ink);
+  text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.25rem, 4.4vw, 3.4rem); }
-h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); }
-h3 { font-size: 1.2rem; }
-h4 { font-size: 0.95rem; }
+h1 { font-size: var(--fs-600); letter-spacing: -0.04em; }
+h2 { font-size: var(--fs-500); letter-spacing: -0.035em; }
+h3 { font-size: var(--fs-300); letter-spacing: -0.02em; }
+h4 { font-size: var(--fs-200); letter-spacing: -0.01em; }
 
 p {
   margin: 0;
-  max-width: 62ch;
+  max-width: var(--measure);
+  line-height: var(--lh-body);
+}
+
+a {
+  color: var(--accent);
 }
 
 .eyebrow {
-  margin-bottom: 1rem;
-  font-size: 0.8rem;
-  font-weight: 500;
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-100);
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--accent);
+}
+
+.lede {
+  font-size: var(--fs-300);
+  line-height: var(--lh-body);
+  color: var(--ink-muted);
 }
 
 .subtitle {
-  margin-top: 1rem;
-  color: var(--text-muted);
+  margin-top: var(--space-2);
+  color: var(--ink-muted);
 }
 
-/* --- buttons --- */
-.btn {
-  display: inline-block;
-  padding: 0.9rem 1.9rem;
-  border-radius: 999px;
-  font-size: 1rem;
-  font-weight: 500;
+.fine-print {
+  font-size: var(--fs-100);
+  color: var(--ink-muted);
+}
+
+/* screen-reader-only, but focusable variants stay reachable */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------- 4. FOCUS + A11Y */
+/* One focus treatment everywhere: a solid ring plus a halo, so it survives
+   both the pale paper and the dark glass. */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 6px var(--focus-halo);
+}
+
+/* never remove the ring for keyboard users — only for pointer clicks */
+:where(a, button, summary):focus:not(:focus-visible) {
+  outline: none;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-1);
+  z-index: 200;
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
   text-decoration: none;
-  transition: background-color 0.4s var(--ease-calm), color 0.4s var(--ease-calm),
-    border-color 0.4s var(--ease-calm), transform 0.4s var(--ease-calm),
-    box-shadow 0.4s var(--ease-calm);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+  transition: transform var(--t-fast) var(--ease-calm);
 }
 
-.btn-primary {
-  color: var(--white);
-  background-color: var(--orange);
-  border: 1px solid var(--orange);
-  box-shadow: 0 6px 20px rgba(207, 119, 88, 0.28);
+.skip-link:focus-visible {
+  transform: translateY(0);
 }
 
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background-color: var(--orange-soft);
-  border-color: var(--orange-soft);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(207, 119, 88, 0.32);
-}
-
-/* the quiet button is itself a small pane of glass */
-.btn-quiet {
-  color: var(--text);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-rim);
-}
-
-.btn-quiet:hover,
-.btn-quiet:focus-visible {
-  background: var(--glass-strong);
-  transform: translateY(-2px);
-}
-
-.cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2.5rem;
-}
-
-.cta-row-center {
-  justify-content: center;
-}
-
-/* --- section scaffold --- */
+/* --------------------------------------------------------------- 5. LAYOUT */
 main > section {
   position: relative;
   padding: var(--section-y) var(--gutter);
@@ -261,19 +396,94 @@ main > section > * {
   margin-inline: auto;
 }
 
+/* centred head — used where the content below is centred too */
 .section-head {
   max-width: 46ch;
   margin-inline: auto;
-  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  margin-bottom: var(--space-8);
   text-align: center;
 }
 
-.section-head .subtitle,
 .section-head p {
   margin-inline: auto;
 }
 
-/*navbar*/
+/* asymmetric head: title left, supporting line offset right. Breaks up the
+   run of centred stacks without disturbing the centred sections. */
+.section-head--split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  max-width: var(--max-width);
+  margin-bottom: var(--space-8);
+  text-align: left;
+}
+
+.section-head--split p {
+  margin-inline: 0;
+}
+
+/* ----------------------------------------------------------- 6. COMPONENTS */
+/* --- buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--fs-200);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--t-slow) var(--ease-calm),
+              color var(--t-slow) var(--ease-calm),
+              border-color var(--t-slow) var(--ease-calm),
+              transform var(--t-slow) var(--ease-calm),
+              box-shadow var(--t-slow) var(--ease-calm);
+}
+
+.btn-primary {
+  color: var(--on-accent);
+  background-color: var(--accent);
+  border: 1px solid var(--accent);
+  box-shadow: 0 6px 20px rgba(122, 50, 24, 0.24);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(122, 50, 24, 0.30);
+}
+
+.btn-quiet {
+  color: var(--ink);
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--hairline);
+}
+
+.btn-quiet:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.cta-row-center {
+  justify-content: center;
+}
+
+/* --- navbar --- */
 .navbar {
   position: sticky;
   top: 0;
@@ -281,22 +491,25 @@ main > section > * {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: var(--space-4);
   flex-wrap: wrap;
   min-height: 88px;
-  padding: 1rem var(--gutter);
-  background: rgba(255, 255, 255, 0.4);
+  padding: var(--space-2) var(--gutter);
+  background: var(--glass-strong);
   -webkit-backdrop-filter: blur(22px) saturate(170%);
   backdrop-filter: blur(22px) saturate(170%);
   border-bottom: 1px solid var(--glass-rim);
-  color: var(--black);
 }
 
 .navbar-brand {
-  font-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-family: var(--font-display);
+  font-size: var(--fs-400);
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--ink);
   text-decoration: none;
 }
 
@@ -306,53 +519,10 @@ main > section > * {
   display: contents;
 }
 
-.nav-toggle {
-  display: none;
-  position: relative;
-  width: 44px;
-  height: 44px;
-  /* pull the tap target back so the bars line up with the gutter */
-  margin-right: -11px;
-  padding: 0;
-  background: none;
-  border: 0;
-  border-radius: 12px;
-  color: var(--black);
-  cursor: pointer;
-}
-
-.nav-toggle-bar {
-  position: absolute;
-  left: 50%;
-  width: 20px;
-  height: 1.5px;
-  margin-left: -10px;
-  border-radius: 2px;
-  background: currentColor;
-  transition: transform 0.4s var(--ease-calm), opacity 0.25s var(--ease-calm);
-}
-
-.nav-toggle-bar:nth-child(1) { top: 15px; }
-.nav-toggle-bar:nth-child(2) { top: 21px; }
-.nav-toggle-bar:nth-child(3) { top: 27px; }
-
-/* the three bars fold into a close mark */
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
-
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
-  opacity: 0;
-}
-
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
-}
-
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: var(--space-4);
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
@@ -361,11 +531,14 @@ main > section > * {
 
 .navbar-links a {
   position: relative;
-  font-size: 0.95rem;
-  font-weight: 400;
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-size: var(--fs-200);
+  font-weight: 500;
+  color: var(--ink-body);
   text-decoration: none;
-  transition: color 0.4s var(--ease-calm);
+  transition: color var(--t-slow) var(--ease-calm);
 }
 
 /* underline grows out of the centre instead of snapping on */
@@ -374,74 +547,141 @@ main > section > * {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -6px;
-  height: 1px;
-  background: var(--orange);
+  bottom: var(--space-1);
+  height: 2px;
+  background: var(--accent);
   transform: scaleX(0);
-  transition: transform 0.45s var(--ease-calm);
+  transition: transform var(--t-slow) var(--ease-calm);
 }
 
-.navbar-links a:hover,
-.navbar-links a:focus-visible {
-  color: var(--text);
+.navbar-links a:hover {
+  color: var(--accent);
 }
 
-.navbar-links a:hover::after,
-.navbar-links a:focus-visible::after {
+.navbar-links a:hover::after {
   transform: scaleX(1);
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-2);
 }
 
 .navbar-cta {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--white);
-  background-color: var(--orange);
-  padding: 0.7rem 1.5rem;
-  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-200);
+  font-weight: 700;
+  color: var(--on-accent);
+  background-color: var(--accent);
+  border-radius: var(--radius-pill);
   text-decoration: none;
-  box-shadow: 0 6px 18px rgba(207, 119, 88, 0.25);
-  transition: background-color 0.4s var(--ease-calm), transform 0.4s var(--ease-calm);
+  box-shadow: 0 6px 18px rgba(122, 50, 24, 0.22);
+  transition: background-color var(--t-slow) var(--ease-calm),
+              transform var(--t-slow) var(--ease-calm);
 }
 
-.navbar-cta:hover,
-.navbar-cta:focus-visible {
-  background-color: var(--orange-soft);
+.navbar-cta:hover {
+  background-color: var(--accent-hover);
   transform: translateY(-2px);
 }
 
-/* --- 1. hero --- */
-.intro-inner {
-  display: flex;
+/* theme toggle */
+.theme-toggle {
+  display: inline-flex;
   align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease-calm),
+              color var(--t-fast) var(--ease-calm);
 }
 
-.column-1,
-.column-2 {
-  flex: 1 1 0;
-  min-width: 0;
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+}
+
+/* hamburger — only meaningful below the nav breakpoint */
+.nav-toggle {
+  display: none;
+  position: relative;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.nav-toggle-bar {
+  position: absolute;
+  left: 50%;
+  width: 22px;
+  height: 2px;
+  margin-left: -11px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--t-slow) var(--ease-calm),
+              opacity var(--t-fast) var(--ease-calm);
+}
+
+.nav-toggle-bar:nth-child(1) { top: 14px; }
+.nav-toggle-bar:nth-child(2) { top: 21px; }
+.nav-toggle-bar:nth-child(3) { top: 28px; }
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* --- 1. hero --- */
+/* deliberately asymmetric: the copy gets the larger column */
+.intro-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: var(--space-6);
 }
 
 .intro-text {
-  max-width: 15ch;
+  margin-top: var(--space-2);
+  font-size: var(--fs-700);
 }
 
 .lede {
-  margin-top: 1.75rem;
-  font-size: 1.1rem;
-  color: var(--text-muted);
+  margin-top: var(--space-3);
 }
 
 .reassurance {
-  margin-top: 1.5rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  margin-top: var(--space-3);
+  font-size: var(--fs-100);
+  color: var(--ink-muted);
 }
 
 /* the phone sits inside two rings that breathe at the app's own pace */
@@ -449,13 +689,13 @@ main > section > * {
   position: relative;
   display: grid;
   place-items: center;
-  padding: 2rem 0;
+  padding: var(--space-4) 0;
 }
 
 .breath-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--glass-rim);
   background: radial-gradient(circle, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%);
   will-change: transform, opacity;
 }
@@ -474,8 +714,8 @@ main > section > * {
 }
 
 @keyframes breathe {
-  0%, 100% { transform: scale(0.92); opacity: 0.45; }
-  50%      { transform: scale(1.08); opacity: 0.85; }
+  0%, 100% { transform: scale(0.9);  opacity: 0.45; }
+  50%      { transform: scale(1.06); opacity: 0.9; }
 }
 
 .column-2 img {
@@ -487,43 +727,84 @@ main > section > * {
   margin-inline: auto;
 }
 
-/* --- 2. breath --- */
+/* --- trust band: grid-breaking strip under the hero --- */
+.trust-band {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+}
+
+/* column-reverse so the figure reads above its label, while the markup keeps
+   the <dt> label / <dd> value order a description list requires */
+.trust-item {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.trust-item dd {
+  margin: 0;
+}
+
+.trust-figure {
+  font-family: var(--font-display);
+  font-size: var(--fs-500);
+  font-weight: 600;
+  line-height: var(--lh-heading);
+  color: var(--ink);
+}
+
+.trust-label {
+  font-size: var(--fs-100);
+  color: var(--ink-muted);
+  max-width: none;
+}
+
+/* --- 2. breath statement --- */
 .breath-section {
-  padding-block: clamp(4rem, 8vw, 6.5rem);
+  padding-block: var(--space-8);
   text-align: center;
   background-color: var(--glass);
 }
 
-/* Wide enough that each sentence holds one line on a desktop screen — at the
-   old 24ch measure the two of them ran to six. */
+/* wide measure so each sentence holds one line on a desktop screen */
 .breath-line {
   max-width: 72ch;
   margin-inline: auto;
-  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  font-family: var(--font-display);
+  font-size: var(--fs-300);
+  /* light and wide against the 700-weight headings — the statement gets its
+     own voice from weight and tracking rather than a second family */
   font-weight: 300;
-  line-height: 1.55;
-  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  line-height: var(--lh-tight);
+  color: var(--ink);
 }
 
-/* a single dot keeping the same 8s rhythm as the hero rings */
 .breath-dot {
-  width: 10px;
-  height: 10px;
-  margin: 2rem auto 0;
+  width: 8px;
+  height: 8px;
+  margin: var(--space-4) auto 0;
   border-radius: 50%;
-  background: var(--orange-soft);
+  background: var(--accent);
   animation: breathe 8s var(--ease-calm) infinite;
 }
 
 /* --- 3. features --- */
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2rem);
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
 }
 
 .feature-card {
-  padding: 2.25rem 2rem;
+  padding: var(--space-4);
 }
 
 .feature-card:hover {
@@ -537,27 +818,24 @@ main > section > * {
   place-items: center;
   width: 48px;
   height: 48px;
-  margin-bottom: 1.5rem;
-  color: var(--orange);
-  background: rgba(255, 255, 255, 0.55);
+  margin-bottom: var(--space-3);
+  border-radius: 50%;
+  color: var(--accent);
+  background: var(--glass-strong);
   border: 1px solid var(--glass-rim);
-  /* organic squircle rather than a plain rounded box */
-  border-radius: 42% 58% 54% 46% / 48% 44% 56% 52%;
-  transition: border-radius 1.2s var(--ease-calm);
-}
-
-.feature-card:hover .feature-icon {
-  border-radius: 56% 44% 46% 54% / 54% 56% 44% 46%;
 }
 
 .feature-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
+}
+
+.feature-card h3 {
+  margin-bottom: var(--space-1);
 }
 
 .feature-card p {
-  margin-top: 0.75rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
 /* --- 4. how it works --- */
@@ -569,27 +847,13 @@ main > section > * {
    row: four 240px tracks plus the gaps came to 1128px against a 1120px cap. */
 .step-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(4rem, 8vw, 8rem);
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
   /* auto, not 0 — this class outranks the margin-inline:auto that centres
      every other section child, and a bare `margin: 0` pins it to the left */
   margin: 0 auto;
   padding: 0;
   list-style: none;
-}
-
-/* two up, then stacked — 4 across stops being readable well before the nav collapses */
-@media (max-width: 1000px) {
-  .step-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(2rem, 5vw, 3rem);
-  }
-}
-
-@media (max-width: 620px) {
-  .step-list {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* centred at every width, matching the section head above it */
@@ -600,36 +864,34 @@ main > section > * {
 .step-number {
   display: grid;
   place-items: center;
-  margin-inline: auto;
-  width: 46px;
-  height: 46px;
-  margin-bottom: 1.25rem;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-2);
   border-radius: 50%;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: var(--fs-100);
+  font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--orange);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  color: var(--accent);
+  background: var(--glass-strong);
   border: 1px solid var(--glass-rim);
 }
 
 .step p {
-  margin-top: 0.75rem;
-  color: var(--text-muted);
+  margin: var(--space-1) auto 0;
+  color: var(--ink-muted);
 }
 
 /* --- 5. testimonials --- */
 .quote-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2rem);
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
 }
 
 .quote-card {
   margin: 0;
-  padding: 2.25rem 2rem;
+  padding: var(--space-4);
 }
 
 .quote-card:hover {
@@ -638,97 +900,125 @@ main > section > * {
   box-shadow: var(--glass-shadow-lift);
 }
 
+.quote-rating {
+  display: flex;
+  gap: 2px;
+  margin-bottom: var(--space-2);
+  color: var(--accent);
+}
+
+.quote-rating svg {
+  width: 16px;
+  height: 16px;
+}
+
 .quote-card blockquote {
   margin: 0;
-  font-size: 1.05rem;
-  font-weight: 300;
-  line-height: 1.7;
+  font-family: var(--font-display);
+  font-size: var(--fs-300);
+  font-weight: 400;
+  line-height: var(--lh-tight);
+  color: var(--ink);
 }
 
 .quote-card figcaption {
-  margin-top: 1.5rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--hairline);
+  font-size: var(--fs-100);
+  color: var(--ink-muted);
+}
+
+.quote-card figcaption strong {
+  display: block;
+  font-size: var(--fs-200);
+  font-weight: 700;
+  color: var(--ink-body);
 }
 
 /* --- 6. pricing --- */
-.pricing-section {
-  background-color: var(--glass);
-}
-
 .plan-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2rem);
-  max-width: 840px;
-  margin-inline: auto;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  align-items: start;
 }
 
 .plan-card {
   display: flex;
   flex-direction: column;
-  padding: 2.5rem 2rem;
+  gap: var(--space-2);
+  padding: var(--space-4);
 }
 
-.plan-card:hover {
-  transform: translateY(-6px);
+/* the featured plan is deliberately heavier — not a mirror of the free one */
+.plan-card-featured {
   background: var(--glass-strong);
+  border-color: var(--accent);
   box-shadow: var(--glass-shadow-lift);
 }
 
-.plan-card-featured {
-  background: var(--glass-strong);
-  border-color: rgba(227, 164, 136, 0.6);
-}
-
 .plan-tag {
-  margin-bottom: 0.75rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-100);
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--on-accent);
+  background: var(--accent);
 }
 
 .plan-price {
-  margin: 1rem 0 2rem;
-  font-size: 2.5rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-family: var(--font-display);
+  font-size: var(--fs-600);
+  font-weight: 600;
+  line-height: var(--lh-heading);
+  color: var(--ink);
 }
 
 .plan-price span {
-  font-size: 0.95rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-200);
   font-weight: 400;
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
 .plan-features {
   flex: 1;
-  margin: 0 0 2.5rem;
+  margin: var(--space-2) 0;
   padding: 0;
   list-style: none;
-  color: var(--text-muted);
+  display: grid;
+  gap: var(--space-2);
 }
 
 .plan-features li {
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--hairline);
+  position: relative;
+  padding-left: var(--space-4);
+  color: var(--ink-muted);
 }
 
-.plan-features li:last-child {
-  border-bottom: none;
+.plan-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 16px;
+  height: 8px;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(-45deg);
 }
 
 .plan-card .btn {
-  text-align: center;
+  width: 100%;
 }
 
-/* --- 7. faq: one glass panel, hairlines between rows --- */
+/* --- 7. faq --- */
 .faq-list {
-  max-width: 720px;
-  margin-inline: auto;
-  padding: 0.5rem 2rem;
+  padding: var(--space-2) var(--space-4);
 }
 
 .faq-item {
@@ -736,100 +1026,158 @@ main > section > * {
 }
 
 .faq-item:last-child {
-  border-bottom: none;
+  border-bottom: 0;
 }
 
 .faq-item summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1.5rem 0;
-  font-size: 1.05rem;
-  font-weight: 500;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  padding: var(--space-2) 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-300);
+  font-weight: 600;
+  color: var(--ink);
   cursor: pointer;
   list-style: none;
-  transition: color 0.4s var(--ease-calm);
 }
 
 .faq-item summary::-webkit-details-marker {
   display: none;
 }
 
-.faq-item summary:hover {
-  color: var(--orange);
-}
-
+/* a plus that becomes a minus — drawn, so it inherits the text colour */
 .faq-item summary::after {
   content: "";
   flex: none;
-  width: 10px;
-  height: 10px;
-  border-right: 1.5px solid var(--text-muted);
-  border-bottom: 1.5px solid var(--text-muted);
-  transform: rotate(45deg) translate(-2px, -2px);
-  transition: transform 0.45s var(--ease-calm);
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor, currentColor) center/16px 2px no-repeat,
+    linear-gradient(currentColor, currentColor) center/2px 16px no-repeat;
+  transition: transform var(--t-slow) var(--ease-calm);
 }
 
 .faq-item[open] summary::after {
-  transform: rotate(225deg) translate(-2px, -2px);
+  transform: rotate(90deg);
+  background:
+    linear-gradient(currentColor, currentColor) center/16px 2px no-repeat;
 }
 
-.faq-item p {
-  padding-bottom: 1.5rem;
-  color: var(--text-muted);
+.faq-item summary:hover {
+  color: var(--accent);
 }
 
-/* --- 8. final cta --- */
+.faq-item > p {
+  margin: 0 0 var(--space-3);
+  padding-right: var(--space-4);
+  color: var(--ink-muted);
+}
+
+/* --- 8. final CTA + signup form --- */
 .download-panel {
-  padding: clamp(3rem, 7vw, 5rem) 2rem;
+  padding: var(--space-8) var(--space-4);
   text-align: center;
 }
 
-.download-panel .subtitle {
-  margin-inline: auto;
+.download-panel h2 {
+  font-size: var(--fs-600);
 }
 
-/* --- 9. footer --- */
+.signup {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 480px;
+  margin: var(--space-6) auto 0;
+  text-align: left;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.field label {
+  font-size: var(--fs-100);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-body);
+}
+
+.field input {
+  min-height: 48px;
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--fs-200);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+}
+
+.field input::placeholder {
+  color: var(--ink-muted);
+}
+
+.field input:hover {
+  border-color: var(--accent);
+}
+
+.field-help {
+  font-size: var(--fs-100);
+  color: var(--ink-muted);
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
+.form-status {
+  min-height: var(--space-3);
+  font-size: var(--fs-100);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------- 8. FOOTER */
 .site-footer {
   position: relative;
-  padding: clamp(4rem, 8vw, 6rem) var(--gutter) 3rem;
-  background: rgba(255, 255, 255, 0.35);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  border-top: 1px solid var(--glass-rim);
+  padding: var(--space-8) var(--gutter) var(--space-4);
+  border-top: 1px solid var(--hairline);
 }
 
-.footer-inner,
-.footer-note,
-.footer-copyright {
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
   max-width: var(--max-width);
   margin-inline: auto;
 }
 
-.footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 3rem;
-}
-
 .footer-brand p {
-  margin-top: 1rem;
+  margin-top: var(--space-2);
   max-width: 32ch;
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  color: var(--ink-muted);
 }
 
 .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(2.5rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
 }
 
 .footer-col h4 {
-  margin-bottom: 1rem;
-  font-weight: 500;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-100);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 .footer-col ul {
@@ -839,40 +1187,149 @@ main > section > * {
 }
 
 .footer-col a {
-  display: inline-block;
-  padding: 0.3rem 0;
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  color: var(--ink-muted);
   text-decoration: none;
-  transition: color 0.4s var(--ease-calm);
+  transition: color var(--t-fast) var(--ease-calm);
 }
 
-.footer-col a:hover,
-.footer-col a:focus-visible {
-  color: var(--text);
+.footer-col a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.footer-note {
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--hairline);
-  max-width: 70ch;
-  font-size: 0.8rem;
-  color: var(--text-muted);
+.footer-note,
+.footer-copyright {
+  max-width: var(--max-width);
+  margin: var(--space-6) auto 0;
+  font-size: var(--fs-100);
+  color: var(--ink-muted);
 }
 
 .footer-copyright {
-  margin-top: 1.5rem;
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  margin-top: var(--space-2);
 }
 
-/* The nav collapses on its own breakpoint, ahead of the rest of the page: the
-   six links, the brand and the CTA need ~1060px laid out in a row, so they are
-   already crowding each other by the time the layout itself goes single column. */
-@media (max-width: 1100px) {
+/* --------------------------------------------- 9. BREAKPOINTS (mobile-up) */
+
+/* ≥ 600px — two-up grids, larger rhythm */
+@media (min-width: 600px) {
+  :root {
+    --section-y: var(--space-12);
+    --gutter: var(--space-5);
+  }
+
+  .feature-grid,
+  .quote-grid,
+  .plan-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .step-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trust-band {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .trust-item {
+    border-top: 0;
+    border-left: 1px solid var(--hairline);
+    padding-left: var(--space-3);
+  }
+
+  .download-panel {
+    padding: var(--space-10) var(--space-8);
+  }
+
+  .faq-list {
+    padding-inline: var(--space-6);
+  }
+}
+
+/* ≥ 900px — type scale steps up, hero becomes asymmetric two-column */
+@media (min-width: 900px) {
+  :root {
+    --gutter: var(--space-7);
+  }
+
+  h1 { font-size: var(--fs-700); }
+  h2 { font-size: var(--fs-600); }
+  h3 { font-size: var(--fs-400); }
+
+  .intro-text { font-size: var(--fs-800); }
+  .breath-line { font-size: var(--fs-400); }
+
+  /* 1.2fr / 1fr — the copy leads, the art supports */
+  .intro-inner {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .section-head--split {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: end;
+    gap: var(--space-8);
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* grid-breaking: the even cards drop half a step, so the row reads as a
+     composition rather than four identical boxes in a line */
+  .feature-card:nth-child(even) {
+    transform: translateY(var(--space-5));
+  }
+
+  .feature-card:nth-child(even):hover {
+    transform: translateY(calc(var(--space-5) - 6px));
+  }
+
+  .quote-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .quote-card:nth-child(2) {
+    transform: translateY(var(--space-4));
+  }
+
+  .quote-card:nth-child(2):hover {
+    transform: translateY(calc(var(--space-4) - 6px));
+  }
+
+  .step-list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  /* the paid plan carries more weight than the free one */
+  .plan-grid {
+    grid-template-columns: 1fr 1.15fr;
+    gap: var(--space-4);
+  }
+
+  .plan-card {
+    padding: var(--space-6);
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-8);
+  }
+}
+
+/* ≥ 1101px — full desktop nav.
+   The nav has its own breakpoint, ahead of the rest of the page: the six
+   links, the brand and the CTA need ~1060px laid out in a row. */
+@media (max-width: 1180px) {
   .navbar {
-    gap: 1rem;
+    gap: var(--space-2);
     min-height: 72px;
   }
 
@@ -900,17 +1357,18 @@ main > section > * {
     left: 0;
     right: 0;
     width: auto;
-    padding: 0.5rem var(--gutter) 1.5rem;
+    padding: var(--space-1) var(--gutter) var(--space-3);
     /* solid, not frosted — the links stay readable over whatever scrolls under */
-    background: var(--white);
+    background: var(--surface);
     border-bottom: 1px solid var(--glass-rim);
     box-shadow: var(--glass-shadow);
     visibility: hidden;
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
-    transition: opacity 0.35s var(--ease-calm), transform 0.35s var(--ease-calm),
-      visibility 0.35s var(--ease-calm);
+    transition: opacity var(--t-slow) var(--ease-calm),
+                transform var(--t-slow) var(--ease-calm),
+                visibility var(--t-slow) var(--ease-calm);
   }
 
   .js .navbar-menu.is-open {
@@ -927,9 +1385,9 @@ main > section > * {
   }
 
   .navbar-links a {
-    display: block;
-    padding: 0.9rem 0;
-    font-size: 1.05rem;
+    display: flex;
+    padding: var(--space-2) 0;
+    font-size: var(--fs-300);
     border-bottom: 1px solid var(--hairline);
   }
 
@@ -943,41 +1401,36 @@ main > section > * {
   }
 
   .navbar-actions {
-    margin-top: 1.25rem;
+    margin-top: var(--space-2);
+    gap: var(--space-2);
   }
 
   .navbar-cta {
     flex: 1;
-    padding: 0.9rem 1.5rem;
-    text-align: center;
+    padding: var(--space-2) var(--space-3);
   }
 }
 
-/*mobile*/
-@media (max-width: 900px) {
-  /* stacks in DOM order: the headline and CTA lead, the phone follows */
-  .intro-inner {
-    flex-direction: column;
-    text-align: center;
+/* ≥ 1200px — widest rhythm */
+@media (min-width: 1200px) {
+  :root {
+    --section-y: var(--space-16);
+    --gutter: var(--space-8);
   }
 
-  .intro-text,
-  .intro-section p {
-    max-width: 34ch;
-    margin-inline: auto;
+  .download-panel {
+    padding: var(--space-12) var(--space-10);
+  }
+}
+
+/* narrow phones: keep everything inside 320px */
+@media (max-width: 380px) {
+  :root {
+    --gutter: var(--space-2);
   }
 
-  .cta-row {
-    justify-content: center;
-  }
-
-  .blob {
-    filter: blur(70px);
-  }
-
-  .faq-list {
-    padding-inline: 1.5rem;
-  }
+  .intro-text { font-size: var(--fs-500); }
+  .cta-row .btn { width: 100%; }
 }
 
 /* nothing here should ever move for someone who asked it not to */
@@ -992,6 +1445,13 @@ main > section > * {
     animation: none !important;
   }
 
+  .feature-card:hover,
+  .quote-card:hover,
+  .btn:hover,
+  .navbar-cta:hover {
+    transform: none !important;
+  }
+
   *,
   *::before,
   *::after {
@@ -1001,112 +1461,31 @@ main > section > * {
   }
 }
 
+/* high-contrast / forced colours: let the OS win, keep the ring visible */
+@media (forced-colors: active) {
+  .btn,
+  .navbar-cta,
+  .theme-toggle,
+  .nav-toggle {
+    border: 1px solid ButtonBorder;
+  }
 
-/*fonts*/
-.poppins-thin {
-  font-family: "Poppins", sans-serif;
-  font-weight: 100;
-  font-style: normal;
+  :where(a, button, input, summary):focus-visible {
+    outline: 3px solid Highlight;
+  }
 }
 
-.poppins-extralight {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}
+/* keep the printed page readable and ink-cheap */
+@media print {
+  .navbar,
+  .bg-field,
+  .theme-toggle,
+  .skip-link {
+    display: none !important;
+  }
 
-.poppins-light {
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.poppins-regular {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.poppins-medium {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.poppins-semibold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.poppins-bold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.poppins-extrabold {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.poppins-black {
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.poppins-thin-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.poppins-extralight-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.poppins-light-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.poppins-regular-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.poppins-medium-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.poppins-semibold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.poppins-bold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.poppins-extrabold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-style: italic;
-}
-
-.poppins-black-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: italic;
+  body {
+    background: #fff;
+    color: #000;
+  }
 }
