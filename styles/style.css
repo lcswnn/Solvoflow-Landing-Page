@@ -24,6 +24,9 @@
   /* glass material */
   --glass:        rgba(255, 255, 255, 0.55);
   --glass-strong: rgba(255, 255, 255, 0.74);
+  /* what --glass-strong resolves to once it is over the page and blurred:
+     the opaque stand-in for the frosted bar, shared so the two cannot drift */
+  --glass-opaque: rgba(255, 255, 255, 0.97);
   --glass-rim:    rgba(255, 255, 255, 0.70);
   --glass-shadow:      0 8px 40px rgba(60, 45, 35, 0.09);
   --glass-shadow-lift: 0 16px 48px rgba(60, 45, 35, 0.15);
@@ -457,7 +460,7 @@ main > section > * {
 /* without the blur, 74% white is not enough to stop text reading through */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .navbar {
-    background: rgba(255, 255, 255, 0.97);
+    background: var(--glass-opaque);
   }
 }
 
@@ -1039,71 +1042,74 @@ main > section > * {
   color: var(--ink-muted);
 }
 
-/* --- 8. final CTA + signup form --- */
-.download-panel {
+/* --- 8. contact panel --- */
+.contact-panel {
+  position: relative;
+  overflow: hidden;          /* keeps the rings inside the panel s rounded edge */
   padding: var(--space-8) var(--space-4);
   text-align: center;
 }
 
-.download-panel h2 {
+/* Two rings on the app s 8s breathe, the same motif as the hero phone. They
+   are plain gradients, so the panel s backdrop-filter making itself their
+   backdrop root costs nothing here. */
+.contact-panel .contact-rings {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.contact-ring {
+  position: absolute;
+  width: min(420px, 82%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--glass-rim);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%);
+  animation: breathe 8s var(--ease-calm) infinite;
+  will-change: transform, opacity;
+}
+
+.contact-ring:nth-child(2) {
+  width: min(560px, 108%);
+  animation-delay: 0.6s;
+}
+
+/* sits above the rings; .glass > * already makes it a positioned box */
+.contact-inner {
+  display: grid;
+  justify-items: center;
+}
+
+.contact-mark {
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: var(--space-3);
+}
+
+.contact-panel h2 {
   font-size: var(--fs-600);
 }
 
-.signup {
-  display: grid;
-  gap: var(--space-3);
-  max-width: 480px;
-  margin: var(--space-6) auto 0;
-  text-align: left;
+/* p carries a global max-width, so inside a centred panel its box stays narrow
+   and left-aligned — the text then centres off-axis from the heading. */
+.contact-panel p {
+  margin-inline: auto;
 }
 
-.field {
-  display: grid;
-  gap: var(--space-1);
-}
-
-.field label {
-  font-size: var(--fs-100);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-body);
-}
-
-.field input {
-  min-height: 48px;
-  padding: var(--space-1) var(--space-2);
-  font-family: var(--font-body);
-  font-size: var(--fs-200);
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-sm);
-}
-
-.field input::placeholder {
-  color: var(--ink-muted);
-}
-
-.field input:hover {
-  border-color: var(--accent);
-}
-
-.field-help {
+/* the address spelled out under the button, for anyone who would rather copy it
+   than trust the click to whatever their browser thinks their mail client is */
+.contact-address {
+  margin-top: var(--space-3);
   font-size: var(--fs-100);
   color: var(--ink-muted);
 }
 
-.field input[aria-invalid="true"] {
-  border-color: var(--accent);
-  border-width: 2px;
-}
-
-.form-status {
-  min-height: var(--space-3);
-  font-size: var(--fs-100);
-  font-weight: 700;
-  color: var(--accent);
+.contact-address a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* --------------------------------------------------------------- 8. FOOTER */
@@ -1206,7 +1212,7 @@ main > section > * {
     padding-left: var(--space-3);
   }
 
-  .download-panel {
+  .contact-panel {
     padding: var(--space-10) var(--space-8);
   }
 
@@ -1321,8 +1327,12 @@ main > section > * {
     right: 0;
     width: auto;
     padding: var(--space-1) var(--gutter) var(--space-3);
-    /* solid, not frosted — the links stay readable over whatever scrolls under */
-    background: var(--surface);
+    /* Matches the bar, but opaque rather than frosted. A backdrop-filter here
+       would be dead on arrival: .navbar carries its own, which makes it this
+       panel s backdrop root, so the blur samples the bar instead of the page
+       and the hero reads straight through. --glass-opaque is what the frosted
+       bar resolves to, so the two surfaces still match. */
+    background: var(--glass-opaque);
     border-bottom: 1px solid var(--glass-rim);
     box-shadow: var(--glass-shadow);
     visibility: hidden;
@@ -1381,7 +1391,7 @@ main > section > * {
     --gutter: var(--space-8);
   }
 
-  .download-panel {
+  .contact-panel {
     padding: var(--space-12) var(--space-10);
   }
 }
