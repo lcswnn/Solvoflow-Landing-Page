@@ -8,7 +8,7 @@
 
 /* ---------------------------------------------------------------- 1. TOKENS */
 :root {
-  /* --- colour ---------------------------------------------------------
+  /* --- color ---------------------------------------------------------
      Every text/background pair below is measured against WCAG AA.
      Ratios in comments are vs. --paper unless noted. */
   --paper:        #F4EFE6;              /* page base                        */
@@ -147,7 +147,7 @@ svg {
   max-width: 100%;
 }
 
-/* --- ambient colour field --- */
+/* --- ambient color field --- */
 .bg-field {
   position: fixed;
   inset: 0;
@@ -1014,7 +1014,7 @@ main > section > * {
   display: none;
 }
 
-/* a plus that becomes a minus — drawn, so it inherits the text colour */
+/* a plus that becomes a minus — drawn, so it inherits the text color */
 .faq-item summary::after {
   content: "";
   flex: none;
@@ -1266,35 +1266,21 @@ main > section > * {
   margin-bottom: var(--space-1);
 }
 
-/* Every unwritten section is wrapped in one of these. It is deliberately loud:
-   the whole point is that this page cannot ship while any of them remain. */
-.legal-todo {
-  margin-block: var(--space-2);
-  padding: var(--space-2) var(--space-3);
+/* a standing notice in legal copy — the crisis wording on the terms page */
+.legal-notice {
+  margin-block: var(--space-3);
+  padding: var(--space-3);
   border-left: 3px solid var(--accent);
   border-radius: var(--radius-sm);
   background: rgba(154, 63, 31, 0.06);
-  font-size: var(--fs-100);
-  color: var(--ink-body);
 }
-
-.legal-todo strong {
+.legal-notice strong {
   display: block;
-  margin-bottom: 0.25em;
-  font-size: var(--fs-100);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin-bottom: 0.4em;
   color: var(--accent);
 }
-
-.legal-draft-banner {
-  /* clears the global 64ch measure on p — this one is a full-bleed bar */
-  max-width: none;
-  padding: var(--space-2) var(--gutter);
-  background: var(--accent);
-  color: var(--on-accent);
-  text-align: center;
-  font-size: var(--fs-100);
+.legal-notice p:last-child {
+  margin-bottom: 0;
 }
 
 /* --------------------------------------------- 9. BREAKPOINTS (mobile-up) */
@@ -1549,7 +1535,7 @@ main > section > * {
   }
 }
 
-/* high-contrast / forced colours: let the OS win, keep the ring visible */
+/* high-contrast / forced colors: let the OS win, keep the ring visible */
 @media (forced-colors: active) {
   .btn,
   .navbar-cta,
