@@ -682,7 +682,7 @@ main > section > * {
   position: relative;
   display: block;
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   height: auto;
   margin-inline: auto;
 }
