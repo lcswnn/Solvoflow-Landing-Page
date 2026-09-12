@@ -682,7 +682,7 @@ main > section > * {
   position: relative;
   display: block;
   width: 100%;
-  max-width: 400px;
+  max-width: 324px;
   height: auto;
   margin-inline: auto;
 }
@@ -1490,6 +1490,12 @@ main > section > * {
   :root {
     --section-y: var(--space-16);
     --gutter: var(--space-8);
+  }
+
+  /* the hero sits just under the bar instead of a full --section-y down, so
+     the phone and headline are on screen without a scroll */
+  .intro-section {
+    padding-top: var(--space-10);
   }
 
   .contact-panel {
