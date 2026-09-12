@@ -728,30 +728,37 @@ main > section > * {
 
 /* --- 2. breath statement --- */
 .breath-section {
-  padding-block: var(--space-8);
+  padding-block: var(--space-12);
   text-align: center;
-  background-color: var(--glass);
+  background-color: var(--glass-strong);
 }
 
-/* wide measure so each sentence holds one line on a desktop screen */
+/* this is the one line we want remembered, so it is set at heading scale
+   with a little air on every side rather than as a quiet aside */
 .breath-line {
-  max-width: 72ch;
-  margin-top: var(--space-2);
+  /* wide enough that each sentence holds one line on a desktop screen */
+  max-width: 40ch;
+  margin-top: var(--space-4);
   margin-inline: auto;
   font-family: var(--font-display);
-  font-size: var(--fs-300);
-  /* light and wide against the 700-weight headings — the statement gets its
-     own voice from weight and tracking rather than a second family */
-  font-weight: 300;
-  letter-spacing: 0.01em;
+  font-size: var(--fs-400);
+  font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: var(--lh-tight);
   color: var(--ink);
+  text-wrap: balance;
+}
+
+/* the promise, in the brand colour, carries the weight */
+.breath-line strong {
+  font-weight: 700;
+  color: var(--accent);
 }
 
 .breath-dot {
-  width: 8px;
-  height: 8px;
-  margin: var(--space-4) auto 0;
+  width: 10px;
+  height: 10px;
+  margin: var(--space-6) auto 0;
   border-radius: 50%;
   background: var(--accent);
   animation: breathe 8s var(--ease-calm) infinite;
@@ -1333,7 +1340,7 @@ main > section > * {
   h3 { font-size: var(--fs-400); }
 
   .intro-text { font-size: var(--fs-800); }
-  .breath-line { font-size: var(--fs-400); }
+  .breath-line { font-size: var(--fs-500); }
 
   /* 1.2fr / 1fr — the copy leads, the art supports */
   .intro-inner {
