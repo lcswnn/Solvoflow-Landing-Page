@@ -6,6 +6,8 @@
   <title>Solvoflow — The linear anxiety and stress relief app</title>
   <meta name="description" content="Solvoflow is a quiet anxiety-relief app: guided unwinding, paced breathing, and calming games. Free to start, no account needed.">
   <meta name="theme-color" content="#F4EFE6">
+  <!-- Safari on iOS shows its own "Open / Get" banner for the app; ignored everywhere else -->
+  <meta name="apple-itunes-app" content="app-id=6804496432">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Solvoflow — Calm anxiety in five minutes">
@@ -73,7 +75,7 @@
           <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="navbar-actions">
-          <a class="navbar-cta" href="#contact">Get the App</a>
+          <a class="navbar-cta" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the App</a>
         </div>
       </div>
     </nav>
@@ -90,7 +92,7 @@
             Solvoflow is a quiet anxiety-relief app: guided unwinding, paced breathing, and mini-games to get your mind in the right direction. Free to start, no account needed.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="#contact">Get the App</a>
+            <a class="btn btn-primary" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the App</a>
             <a class="btn btn-quiet" href="#how-it-works">See how it works</a>
           </div>
           <p class="reassurance">Free to start &middot; No account needed &middot; Nothing shared</p>
@@ -285,7 +287,7 @@
             <li>Widget to get access to app from your home screen</li>
             <li>No account, no login, no data logging required</li>
           </ul>
-          <a class="btn btn-quiet" href="#contact">Get the App</a>
+          <a class="btn btn-quiet" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the App</a>
         </article>
 
         <article class="plan-card plan-card-featured glass" aria-labelledby="plan-plus">
@@ -299,7 +301,8 @@
             <li>Extended soundscape library</li>
             <li>Progressive Muscle Relaxation (PMR) module</li>
           </ul>
-          <a class="btn btn-primary" href="#contact">Get Plus Today</a>
+          <!-- Plus is an in-app purchase, so this goes to the same listing -->
+          <a class="btn btn-primary" href="https://apps.apple.com/app/solvoflow/id6804496432">Get Plus Today</a>
         </article>
       </div>
     </section>
@@ -359,17 +362,14 @@
             <a href="mailto:support@solvoflow.app">support@solvoflow.app</a>
           </p>
 
-          <!-- Restore at launch, once there is something to download: swap the href
-               for the real App Store product URL and delete these comment markers.
-               The badge is Apple's own artwork, used unmodified as their marketing
-               guidelines require — do not recolor, retype or rebuild it.
+          <!-- The badge is Apple's own artwork, used unmodified as their marketing
+               guidelines require — do not recolor, retype or rebuild it. -->
           <div class="cta-row cta-row-center">
-            <a class="app-store-badge" href="APP_STORE_URL_GOES_HERE">
+            <a class="app-store-badge" href="https://apps.apple.com/app/solvoflow/id6804496432">
               <img src="assets/web/app-store-badge.svg"
                    alt="Download on the App Store" width="120" height="40">
             </a>
           </div>
-          -->
         </div>
       </div>
     </section>
@@ -417,8 +417,7 @@
       Crisis Lifeline, or find a line where you are at
       <a href="https://findahelpline.com" rel="noopener">findahelpline.com</a>.
     </p>
-    <!-- Required wherever the App Store badge or any Apple mark appears; it goes
-         up now so it cannot be forgotten when the download button is restored.
+    <!-- Required wherever the App Store badge or any Apple mark appears.
          Wording is Apple's own and should be copied, not paraphrased. -->
     <p class="footer-legal">
       Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other
