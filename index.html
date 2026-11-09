@@ -4,26 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solvoflow — The linear anxiety and stress relief app</title>
-  <meta name="description" content="Solvoflow is a quiet anxiety-relief app: guided unwinding, paced breathing, and calming games. Free to start, no account needed.">
-  <meta name="theme-color" content="#F4EFE6">
+  <meta name="description" content="Solvoflow is a quiet anxiety-relief app: physiological sighs, a calming game, and one more short exercise, then you're done. Free to start, no account needed.">
+  <meta name="theme-color" content="#F6F7F9">
   <!-- Safari on iOS shows its own "Open / Get" banner for the app; ignored everywhere else -->
   <meta name="apple-itunes-app" content="app-id=6804496432">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Solvoflow — Calm anxiety in five minutes">
-  <meta property="og:description" content="Guided unwinding, paced breathing, and calming games. Free to start, no account needed.">
+  <meta property="og:description" content="Physiological sighs, a calming game, and one more short exercise. Free to start, no account needed.">
   <meta property="og:image" content="assets/app-render.png">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Elms Sans is the app's own UI font — the body copy matches the product -->
+  <!-- Elms Sans is the app's own UI font — the site and the product read as one thing -->
   <link href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/style.css">
 
-  <!-- Tab icon. Safari is the fussy one: it picks a PNG far more reliably than
-       an .ico, so the exact-size PNGs are declared first and the .ico is left
-       as the fallback for older browsers and the bare /favicon.ico probe. -->
+  <!-- Tab icon. Safari picks a PNG far more reliably than an .ico, so the
+       exact-size PNGs come first and the .ico is the fallback. -->
   <link rel="icon" type="image/png" href="assets/web/icon-32.png?v=2" sizes="32x32">
   <link rel="icon" type="image/png" href="assets/web/icon-16.png?v=2" sizes="16x16">
   <link rel="icon" type="image/png" href="assets/web/icon-192.png?v=2" sizes="192x192">
@@ -34,17 +33,28 @@
     /* Runs before paint: sets the JS hook the nav depends on. */
     document.documentElement.classList.add("js");
   </script>
+
+  <!-- Lets search engines show the app's name, platform and price. Keep the
+       price in step with the Pricing section if it changes. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "Solvoflow",
+      "operatingSystem": "iOS",
+      "applicationCategory": "HealthApplication",
+      "description": "A quiet anxiety-relief app: physiological sighs, a calming game, and one more short exercise. Free to start, no account needed.",
+      "downloadUrl": "https://apps.apple.com/app/solvoflow/id6804496432",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <!-- ambient color field: this is what the frosted glass refracts -->
-  <div class="bg-field" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-  </div>
 
   <header class="site-header">
     <nav class="navbar" aria-label="Primary">
@@ -54,360 +64,280 @@
         <span class="brand-word">Solvoflow</span>
       </a>
 
-      <!-- only shows below 1180px, where the menu collapses behind it -->
-      <!-- labelled via aria-label, not a child <span>: the bars are positioned
-           with :nth-child, so any extra child silently breaks the icon -->
+      <!-- only shows below 860px, where the menu collapses behind it.
+           Labelled via aria-label, not a child <span>: the bars are positioned
+           with :nth-child, so any extra child breaks the icon -->
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>
         <span class="nav-toggle-bar" aria-hidden="true"></span>
       </button>
 
-      <!-- display:contents on desktop, so the links and CTA stay direct flex children -->
       <div class="navbar-menu" id="nav-menu">
         <ul class="navbar-links">
+          <li><a href="#how-it-works">How it works</a></li>
           <li><a href="#features">Features</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <!-- hidden until we have real feedback to show
-          <li><a href="#testimonials">Testimonials</a></li> -->
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        <div class="navbar-actions">
-          <a class="navbar-cta" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the App</a>
-        </div>
+        <a class="navbar-cta" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the app</a>
       </div>
     </nav>
   </header>
 
   <main id="main">
-    <!-- 1. HERO -->
-    <section class="intro-section" id="home" aria-labelledby="hero-heading">
-      <div class="intro-inner">
-        <div class="column-1">
-          <p class="eyebrow">A quieter way through it</p>
-          <h1 class="intro-text" id="hero-heading">Breathe, reset, and get back to your day.</h1>
+    <!-- 1. HERO — a framed sunrise, with the app rising out of it -->
+    <section class="hero" id="home" aria-labelledby="hero-heading">
+      <div class="hero-frame">
+        <div class="hero-copy">
+          <h1 id="hero-heading">Breathe, reset, and get back to your day.</h1>
           <p class="lede">
-            Solvoflow is a quiet anxiety-relief app: guided unwinding, paced breathing, and mini-games to get your mind in the right direction. Free to start, no account needed.
+            Solvoflow is a quiet iPhone app for anxious moments. A few minutes of breathing,
+            a calming game and one more exercise, and then you&rsquo;re done.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the App</a>
-            <a class="btn btn-quiet" href="#how-it-works">See how it works</a>
-          </div>
-          <p class="reassurance">Free to start &middot; No account needed &middot; Nothing shared</p>
-        </div>
-        <div class="column-2">
-          <!-- slow 8s pulse: 4s in, 4s out — the app's actual breathing pace -->
-          <div class="phone-stage">
-            <span class="breath-ring ring-1" aria-hidden="true"></span>
-            <span class="breath-ring ring-2" aria-hidden="true"></span>
-            <img src="assets/app-render.png" width="1044" height="2211"
-                 alt="The Solvoflow app on a phone: a soft glowing circle above the words “You&rsquo;re here. Let&rsquo;s get you back to steady.”, a Begin button, and a quieter “I&rsquo;m okay, just want to relax” link.">
+            <a class="btn btn-primary" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the app</a>
+            <a class="btn btn-glass" href="#how-it-works">How it works</a>
           </div>
         </div>
-      </div>
 
+        <div class="hero-stage">
+          <!-- WebP at the two sizes the phone is shown at (1x/2x and 3x screens);
+               the original PNG stays as the fallback and the share image.
+               fetchpriority: this is the largest thing on the first screen. -->
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/app-render-600.webp 600w, assets/app-render-900.webp 900w"
+                    sizes="(min-width: 960px) 300px, min(270px, 66vw)">
+            <img class="hero-phone" src="assets/app-render.png" width="1044" height="2211"
+                 fetchpriority="high" decoding="async"
+                 alt="The Solvoflow home screen on an iPhone: a soft peach circle above the words “Hi there. Glad you stopped by.”, a Begin button, and a Practice on your own button.">
+          </picture>
+
+          <!-- two short facts beside the phone; on small screens they sit
+               under it instead, so nothing is hidden -->
+          <ul class="hero-notes">
+            <li class="note note-start">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="5" y="11" width="14" height="9" rx="2"/>
+                <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+              </svg>
+              <span><strong>No account needed</strong> Nothing leaves your phone.</span>
+            </li>
+            <li class="note note-end">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/>
+                <path d="M10.5 19a2 2 0 0 0 3 0"/>
+                <path d="M4 4l16 16"/>
+              </svg>
+              <span><strong>No streaks or notifications</strong> Open it only when you need it.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- 2. BREATH — single calm statement, lots of air -->
-    <section class="breath-section" aria-label="Our approach">
-      <div>
-        <div class="breath-dot" aria-hidden="true"></div>
-        <p class="breath-line">
-          Every other app wants your attention.<br>
-          <strong>We just want you to feel okay again.</strong>
-        </p>
-        <div class="breath-dot" aria-hidden="true"></div>
+    <!-- 2. STATEMENT -->
+    <section class="statement-section" aria-label="Our approach">
+      <!-- one sentence per line on wider screens -->
+      <p class="statement">
+        <span>Every other app wants your attention.</span>
+        <span>We just want you to feel okay again.</span>
+      </p>
+    </section>
+
+    <!-- 3. HOW IT WORKS — a real sequence, so it's numbered -->
+    <section class="section" id="how-it-works" aria-labelledby="how-heading">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="how-heading">How a session goes</h2>
+          <p>Tap Begin and the app takes you through four steps, in order. It never loops you back to a menu.</p>
+        </header>
+
+        <div class="steps-wrap">
+          <!-- the wave that joins the four numbers on wide screens; on narrow
+               screens each step draws its own curve instead (style.css) -->
+          <svg class="steps-curve" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="steps-curve-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#8FA9D3"/>
+                <stop offset="1" stop-color="#E9A47C"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 32 C33 0 67 0 100 32 C133 64 167 64 200 32 C233 0 267 0 300 32"/>
+          </svg>
+
+          <ol class="steps">
+            <li class="step">
+              <span class="step-num" aria-hidden="true">1</span>
+              <h3>Three physiological sighs</h3>
+              <p>Two breaths in through the nose, then one long breath out. They calm your nervous system before anything else.</p>
+            </li>
+            <li class="step">
+              <span class="step-num" aria-hidden="true">2</span>
+              <h3>A calming game</h3>
+              <p>Pick a game for the kind of anxiety you&rsquo;re feeling. Visuospatial puzzles give your mind somewhere else to be.</p>
+            </li>
+            <li class="step">
+              <span class="step-num" aria-hidden="true">3</span>
+              <h3>One more exercise</h3>
+              <p>Finish with one pick from the library: soundscapes, other breathing patterns, somatic movements and more.</p>
+            </li>
+            <li class="step">
+              <span class="step-num" aria-hidden="true">4</span>
+              <h3>Put it down</h3>
+              <p>The session ends there. Close the app and come back when you need it again.</p>
+            </li>
+          </ol>
+        </div>
       </div>
     </section>
 
-    <!-- 3. FEATURES -->
-    <section class="features-section" id="features" aria-labelledby="features-heading">
-      <header class="section-head section-head--split">
-        <div>
-          <p class="eyebrow">Features</p>
+    <!-- 4. FEATURES -->
+    <section class="section" id="features" aria-labelledby="features-heading">
+      <div class="wrap">
+        <header class="section-head">
           <h2 id="features-heading">Small tools, made for the hard moments.</h2>
-        </div>
-        <p class="subtitle">Everything here is meant to be used in under five minutes &mdash; on the bus, between meetings, or at 2am.</p>
-      </header>
+          <p>Everything here is meant to be used in under five minutes: on the bus, between meetings, or at 2am.</p>
+        </header>
 
-      <div class="feature-grid">
-        <article class="feature-card glass">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12c3-5 6 5 9 0s6-5 9 0"/>
-            </svg>
-          </div>
-          <h3>Guided unwinding</h3>
-          <p>Short prompts that walk a spiraling thought back down to something you can hold.</p>
-        </article>
-
-        <article class="feature-card glass">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="12" cy="12" r="9" opacity="0.45"/>
-            </svg>
-          </div>
-          <h3>Breathing that follows you</h3>
-          <p>Paced breathing that adjusts to how wound up you actually are, not a fixed timer.</p>
-        </article>
-
-        <article class="feature-card glass">
-          <div class="feature-icon" aria-hidden="true">
-            <!-- four unlike shapes — the visuospatial puzzles, not a game controller -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/>
-              <circle cx="17" cy="7" r="3.5"/>
-              <path d="M7 13.5l3.5 7h-7z"/>
-              <path d="M17 13l4 4-4 4-4-4z"/>
-            </svg>
-          </div>
-          <h3>Games that pull focus</h3>
-          <p>Calming visuospatial puzzles that help redirect your attention when your mind needs somewhere else to be.</p>
-        </article>
-
-        <article class="feature-card glass">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/>
-              <path d="M10.5 19a2 2 0 0 0 3 0"/>
-              <path d="M4 4l16 16" opacity="0.5"/>
-            </svg>
-          </div>
-          <h3>Nothing that nags</h3>
-          <p>No streaks, no badges, no guilt. Open it when you need it and close it when you don't.</p>
-        </article>
+        <ul class="features">
+          <li class="feature">
+            <span class="feature-icon tint-warm" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c3-5 6 5 9 0s6-5 9 0"/></svg>
+            </span>
+            <h3>Guided unwinding</h3>
+            <p>Short prompts that walk a spiraling thought back down to something you can hold.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon tint-cool" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="8.5" opacity="0.45"/></svg>
+            </span>
+            <h3>Breathing that follows you</h3>
+            <p>Paced breathing that adjusts to how wound up you actually are, not a fixed timer.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon tint-cool" aria-hidden="true">
+              <!-- four unlike shapes — the visuospatial puzzles, not a game controller -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><circle cx="17" cy="7" r="3.5"/><path d="M7 13.5l3.5 7h-7z"/><path d="M17 13l4 4-4 4-4-4z"/></svg>
+            </span>
+            <h3>Games that pull focus</h3>
+            <p>Calming visuospatial puzzles that redirect your attention when your mind needs somewhere else to be.</p>
+          </li>
+          <li class="feature">
+            <span class="feature-icon tint-warm" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 19a2 2 0 0 0 3 0"/><path d="M4 4l16 16" opacity="0.5"/></svg>
+            </span>
+            <h3>Nothing that nags</h3>
+            <p>No streaks, no badges, no guilt. Open it when you need it and close it when you don&rsquo;t.</p>
+          </li>
+        </ul>
       </div>
     </section>
 
-    <!-- 4. HOW IT WORKS -->
-    <section class="how-section" id="how-it-works" aria-labelledby="how-heading">
-      <header class="section-head">
-        <p class="eyebrow">How it works</p>
-        <h2 id="how-heading">Relieving anxiety in 4 easy steps</h2>
-      </header>
+    <!-- Testimonials were taken out in this redesign until there is real,
+         permissioned feedback. The old placeholder block is in git at 949f773. -->
 
-      <ol class="step-list">
-        <li class="step">
-          <span class="step-number" aria-hidden="true">01</span>
-          <h3>Physiological Breathing</h3>
-          <p>The workflow always starts with 3 physiological sighs. These sighs calms the nervous system and lower stress before the rest of the workflow.</p>
-        </li>
-        <li class="step">
-          <span class="step-number" aria-hidden="true">02</span>
-          <h3>Calming and Visuospatial Games</h3>
-          <p>Depending on your type of anxiety, you can choose from a variety of games designed to help get your mind off of your worries.</p>
-        </li>
-        <li class="step">
-          <span class="step-number" aria-hidden="true">03</span>
-          <h3>One More Thing...</h3>
-          <p>Select one more exercise from our extensive library to finish your session. Choose between Soundscapes, other breathing exercises, Somatic Movements, and more.</p>
-        </li>
-        <li class="step">
-          <span class="step-number" aria-hidden="true">04</span>
-          <h3>Log Off</h3>
-          <p>The app is designed linearly with no loop back to a menu or start. Once you're done, we would love for you to put us down until you need us next.</p>
-        </li>
-      </ol>
-    </section>
+    <!-- 5. PRICING -->
+    <section class="section" id="pricing" aria-labelledby="pricing-heading">
+      <div class="wrap">
+        <header class="section-head">
+          <h2 id="pricing-heading">Start free. Pay once if you want more.</h2>
+          <p>No subscription, and no paywall waiting at the end of onboarding. The core of Solvoflow is free; the extras are a single payment.</p>
+        </header>
 
-    <!-- 5. TESTIMONIALS — commented out until we have real user feedback.
-         The quotes and names below are illustrative placeholders; replace them
-         with real, permissioned quotes from named users before switching this
-         back on. The nav and footer links to #testimonials are commented out
-         to match, so re-enable those three together. -->
-    <!--
-    <section class="testimonials-section" id="testimonials" aria-labelledby="testimonials-heading">
-      <header class="section-head section-head--split">
-        <div>
-          <p class="eyebrow">Testimonials</p>
-          <h2 id="testimonials-heading">Quiet feedback from quiet users.</h2>
+        <div class="plans">
+          <article class="plan plan-free" aria-labelledby="plan-free">
+            <h3 id="plan-free">Free</h3>
+            <p class="plan-price">$0 <span>for good</span></p>
+            <ul class="plan-features">
+              <li>All core features</li>
+              <li>A home screen widget that opens the app in one tap</li>
+              <li>No account, no login, no data logging</li>
+            </ul>
+            <a class="btn btn-outline" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the app</a>
+          </article>
+
+          <article class="plan plan-plus" aria-labelledby="plan-plus">
+            <h3 id="plan-plus">Plus</h3>
+            <p class="plan-price">$3.99 <span>USD, paid once</span></p>
+            <ul class="plan-features">
+              <li>Everything in Free</li>
+              <li>Extra somatic movement exercises</li>
+              <li>More breathing patterns beyond the core one</li>
+              <li>A bigger soundscape library</li>
+              <li>Progressive Muscle Relaxation (PMR)</li>
+            </ul>
+            <!-- Plus is an in-app purchase, so this goes to the same listing -->
+            <a class="btn btn-light" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the app</a>
+            <p class="plan-note">You unlock Plus from inside the app.</p>
+          </article>
         </div>
-        <p class="subtitle">Placeholder quotes for layout. Swap in real, permissioned feedback before this page goes live.</p>
-      </header>
-
-      <div class="quote-grid">
-        <figure class="quote-card glass">
-          <div class="quote-rating" role="img" aria-label="Rated 5 out of 5">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-          </div>
-          <blockquote>Placeholder quote. Two sentences at most, in a normal person's voice.</blockquote>
-          <figcaption><strong>Placeholder name</strong>Solvoflow User</figcaption>
-        </figure>
-
-        <figure class="quote-card glass">
-          <div class="quote-rating" role="img" aria-label="Rated 5 out of 5">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-          </div>
-          <blockquote>Placeholder quote. Two sentences at most, in a normal person's voice.</blockquote>
-          <figcaption><strong>Placeholder name</strong>Solvoflow User</figcaption>
-        </figure>
-
-        <figure class="quote-card glass">
-          <div class="quote-rating" role="img" aria-label="Rated 5 out of 5">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.5 7 .9-5 4.9 1.2 7-6.2-3.4L5.8 21 7 14.3 2 9.4l7-.9z"/></svg>
-          </div>
-          <blockquote>Placeholder quote. Two sentences at most, in a normal person's voice.</blockquote>
-          <figcaption><strong>Placeholder name</strong>Solvoflow User</figcaption>
-        </figure>
-      </div>
-    </section>
-    -->
-
-    <!-- 6. PRICING -->
-    <section class="pricing-section" id="pricing" aria-labelledby="pricing-heading">
-      <header class="section-head section-head--split">
-        <div>
-          <p class="eyebrow">Pricing</p>
-          <h2 id="pricing-heading">Start free. Upgrade only if it earns it.</h2>
-        </div>
-        <p class="subtitle">Users hate going through an onboarding process just to hit a paywall and pay monthly. We hear you, and kept our core features free, with an option to pay one time for extras.</p>
-      </header>
-
-      <div class="plan-grid">
-        <article class="plan-card glass" aria-labelledby="plan-free">
-          <h3 id="plan-free">Free</h3>
-          <p class="plan-price">$0<span>/forever</span></p>
-          <ul class="plan-features">
-            <li>All core features</li>
-            <li>Widget to get access to app from your home screen</li>
-            <li>No account, no login, no data logging required</li>
-          </ul>
-          <a class="btn btn-quiet" href="https://apps.apple.com/app/solvoflow/id6804496432">Get the App</a>
-        </article>
-
-        <article class="plan-card plan-card-featured glass" aria-labelledby="plan-plus">
-          <p class="plan-tag">Most chosen</p>
-          <h3 id="plan-plus">Plus</h3>
-          <p class="plan-price">$3.99 USD<span> one time</span></p>
-          <ul class="plan-features">
-            <li>Everything in Free</li>
-            <li>Extra somatic movement exercises</li>
-            <li>Additional breathing pattern variety beyond the core one</li>
-            <li>Extended soundscape library</li>
-            <li>Progressive Muscle Relaxation (PMR) module</li>
-          </ul>
-          <!-- Plus is an in-app purchase, so this goes to the same listing -->
-          <a class="btn btn-primary" href="https://apps.apple.com/app/solvoflow/id6804496432">Get Plus Today</a>
-        </article>
       </div>
     </section>
 
-    <!-- 7. FAQ
+    <!-- 6. FAQ
          TODO: confirm every answer below matches what the app actually does. -->
-    <section class="faq-section" id="faq" aria-labelledby="faq-heading">
-      <header class="section-head section-head--split">
-        <div>
-          <p class="eyebrow">FAQ</p>
-          <h2 id="faq-heading">Common questions.</h2>
+    <section class="section" id="faq" aria-labelledby="faq-heading">
+      <div class="wrap wrap-narrow">
+        <header class="section-head">
+          <h2 id="faq-heading">Common questions</h2>
+        </header>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Is Solvoflow a replacement for therapy?</summary>
+            <p>No. Solvoflow is not a replacement for therapy or medical treatment. It&rsquo;s a self-help tool that takes you through breathing exercises, games and other practices to help you relax and ease stress.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is my data tracked?</summary>
+            <p>No. Solvoflow doesn&rsquo;t track or log any user data. There&rsquo;s no account, no login, and no analytics that collect personal information.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Will Solvoflow send me notifications?</summary>
+            <p>No. There are no notifications, no streaks to keep up and no nudges to come back. Solvoflow only opens when you open it.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I cancel anytime?</summary>
+            <p>There&rsquo;s nothing to cancel. Free stays free, and Plus is a single payment rather than a subscription.</p>
+          </details>
         </div>
-      </header>
-
-      <div class="faq-list glass">
-        <details class="faq-item">
-          <summary>Is Solvoflow a replacement for therapy?</summary>
-          <p>Solvoflow is not a replacement for therapy or medical treatment. It is simply a self-help tool that takes the user through breathing exercises, games, and other practices to promote relaxation and stress relief.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is my data tracked?</summary>
-          <p>No. Solvoflow does not track or log any user data. There is no account, no login, and no analytics that collect personal information.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Will Solvoflow pester me with notifications?</summary>
-          <p>Solvoflow has no notification system, no streaks to keep track of, and no re-engagement nudges. Solvoflow only opens when you need it.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Can I cancel anytime?</summary>
-          <p>There is nothing to cancel. Free stays free, and Plus is a single payment rather than a subscription.</p>
-        </details>
       </div>
     </section>
 
-    <!-- 8. CONTACT -->
-    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
-      <div class="contact-panel glass">
-        <!-- the app s own 8s breathing pace, echoing the hero phone; decorative -->
-        <div class="contact-rings" aria-hidden="true">
-          <span class="contact-ring"></span>
-          <span class="contact-ring"></span>
+    <!-- 7. CONTACT — the closing sunrise panel, echoing the hero -->
+    <section class="closing" id="contact" aria-labelledby="contact-heading">
+      <div class="closing-frame">
+        <h2 id="contact-heading">Something on your mind?</h2>
+        <p class="closing-text">Questions, feedback, or something that isn&rsquo;t working: write to us and a person reads it.</p>
+        <div class="cta-row cta-row-center">
+          <a class="btn btn-primary" href="mailto:support@solvoflow.app">Email support</a>
         </div>
-
-        <div class="contact-inner">
-          <img class="contact-mark" src="assets/icon-no-bg-light-mode.png" alt=""
-               width="512" height="512">
-          <h2 id="contact-heading">Something on your mind?</h2>
-          <p class="subtitle">Questions, feedback, or something that isn&rsquo;t working &mdash; write to us and a person reads it.</p>
-
-          <div class="cta-row cta-row-center">
-            <a class="btn btn-primary" href="mailto:support@solvoflow.app">Email support</a>
-          </div>
-
-          <!-- the address in full as well: a mailto: goes nowhere for anyone
-               without a mail client wired up, and this they can copy -->
-          <p class="contact-address">
-            <a href="mailto:support@solvoflow.app">support@solvoflow.app</a>
-          </p>
-
-          <!-- The badge is Apple's own artwork, used unmodified as their marketing
-               guidelines require — do not recolor, retype or rebuild it. -->
-          <div class="cta-row cta-row-center">
-            <a class="app-store-badge" href="https://apps.apple.com/app/solvoflow/id6804496432">
-              <img src="assets/web/app-store-badge.svg"
-                   alt="Download on the App Store" width="120" height="40">
-            </a>
-          </div>
-        </div>
+        <!-- the address in full as well: a mailto: goes nowhere for anyone
+             without a mail client set up, and this they can copy -->
+        <p class="closing-address"><a href="mailto:support@solvoflow.app">support@solvoflow.app</a></p>
+        <!-- Apple's own artwork, used unmodified as their marketing guidelines
+             require: do not recolor, retype or rebuild it. -->
+        <a class="app-store-badge" href="https://apps.apple.com/app/solvoflow/id6804496432">
+          <img src="assets/web/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+        </a>
       </div>
     </section>
   </main>
 
-  <!-- 9. FOOTER -->
+  <!-- 8. FOOTER -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a class="navbar-brand" href="#home">Solvoflow</a>
-        <p>Relieve anxiety, worries, and stress &mdash; quickly and quietly.</p>
-      </div>
-
-      <nav class="footer-links" aria-label="Footer">
-        <div class="footer-col">
-          <h4>Product</h4>
-          <ul>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <ul>
-            <!-- hidden until we have real feedback to show
-            <li><a href="#testimonials">Testimonials</a></li> -->
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="mailto:support@solvoflow.app">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="privacy.html">Privacy</a></li>
-            <li><a href="terms.html">Terms</a></li>
-          </ul>
-        </div>
+    <div class="footer-row">
+      <a class="footer-brand" href="#home"><img src="assets/icon-no-bg-light-mode.png" alt="" width="512" height="512">Solvoflow</a>
+      <nav aria-label="Footer">
+        <ul class="footer-links">
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="mailto:support@solvoflow.app">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+        </ul>
       </nav>
     </div>
 

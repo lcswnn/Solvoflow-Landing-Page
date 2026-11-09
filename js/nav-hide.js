@@ -25,6 +25,10 @@
     var y = Math.max(0, window.pageYOffset);
     var delta = y - lastY;
 
+    // Once the page has moved, the bar gets a hairline so it reads as
+    // sitting above the content rather than floating in it.
+    header.classList.toggle('is-scrolled', y > 8);
+
     // Swallow sub-pixel drift and a trackpad settling, but keep lastY put so
     // small moves in one direction still accumulate into a real gesture.
     if (Math.abs(delta) < 6) return;
